@@ -62,7 +62,6 @@ function displayImage(event, id) {
     }
 }
 
-
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) {
@@ -87,13 +86,13 @@ function downloadAsImage() {
         textElement.style.fontSize = computedStyle.fontSize;
         textElement.style.fontFamily = computedStyle.fontFamily;
         textElement.style.color = computedStyle.color;
-        textElement.style.textAlign = computedStyle.textAlign || 'center';
+        textElement.style.textAlign = 'right';  // محاذاة لليمين
+        textElement.style.direction = 'rtl';  // الكتابة من اليمين إلى اليسار
         textElement.style.lineHeight = computedStyle.lineHeight;
         textElement.style.display = 'flex';
         textElement.style.alignItems = 'center';
-        textElement.style.justifyContent = 'center';
         textElement.style.padding = '5px';
-        textElement.style.whiteSpace = 'nowrap'; // Prevent text wrapping
+        textElement.style.whiteSpace = 'nowrap'; // منع التفاف النص
         textElement.style.overflow = 'hidden';
         textElement.textContent = input.value || input.placeholder;
         textElement.className = 'temp-element';
