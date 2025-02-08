@@ -1,0 +1,186 @@
+
+
+‎/* تحسين الأزرار */
+button {
+    transition: transform 0.2s, background-color 0.2s;
+    background: linear-gradient(45deg, #0D2F3B, #1E5A6A);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #1E5A6A, #0D2F3B);
+    color: #ffffff;
+}
+
+‎/* تصميم الحاويات الرئيسية */
+.container {
+    width: 90%;
+    max-width: 90%;
+    margin: auto;
+    border: 1px solid #99ccff;
+    border-radius: 10px;
+    background: white;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+}
+
+‎/* تحسين رأس الصفحة */
+.header {
+    grid-column: span 2;
+    background: linear-gradient(to right, #103d5e, #46b39d);
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+}
+.header .logo {
+    width: 120px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.header .text {
+    text-align: center;
+    font-size: 18px;
+}
+
+‎/* تصميم الحقول */
+.fields {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.field label {
+    margin-bottom: 5px;
+    color: #103d5e;
+    font-size: 16px;
+}
+
+.field input, .field textarea {
+       text-align: right !important;
+    direction: rtl !important;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #46b39d;
+    box-sizing: border-box;
+}
+
+.field input:focus, .field textarea:focus {
+    border-color: #103d5e;
+    outline: none;
+}
+
+‎/* تحسين النصوص عند التحويل */
+.temp-element {
+    position: absolute;
+    font-size: 16px;
+    text-align: center;
+    white-space: pre-wrap;
+    color: #103d5e;
+    background: transparent;
+}
+
+‎/* تحسين الأزرار */
+.buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+body {
+    font-family: 'Cairo', 'Tajawal', Arial, sans-serif; /* أضف الخطوط هنا */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #e6f7ff, #cceeff);
+}
+
+.field input, .field textarea {
+    font-family: 'Cairo', 'Tajawal', Arial, sans-serif; /* الخطوط */
+    font-size: 14px; /* حجم النص */
+    padding: 10px; /* مسافة داخلية */
+    border: 1px solid #46b39d;
+    border-radius: 8px; /* حواف مستديرة */
+    box-sizing: border-box;
+    text-align: right; /* محاذاة النص */
+    width: 100%; /* عرض الحقل بالكامل */
+    max-width: 400px; /* حد أقصى للعرض */
+    resize: none; /* منع تغيير حجم الحقول */
+}
+
+.field textarea {
+    height: 80px; /* ارتفاع مناسب للنصوص */
+    max-width: 100%; /* حد أقصى للعرض */
+}
+
+}
+.field input:focus, .field textarea:focus {
+    border-color: #103d5e;
+    outline: none;
+}
+
+
+.buttons-container {
+    display: flex;
+    justify-content: center;  /* يجعل الأزرار في المنتصف */
+    gap: 30px;  /* زيادة المسافة بين الأزرار */
+    position: fixed;
+    bottom: 20px;  /* تثبيت الأزرار بأسفل الصفحة */
+    left: 50%;
+    transform: translateX(-50%);  /* يجعلها في المنتصف تمامًا */
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9); /* خلفية شفافة قليلاً */
+    border-top: 2px solid #ccc;
+    width: 100%;
+    text-align: center;
+}
+
+.btn {
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 180px;  /* توحيد حجم الأزرار */
+    text-align: center;
+}
+
+.blue-btn {
+    background-color: #007BFF;
+    color: white;
+}
+
+.red-btn {
+    background-color: #DC3545;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
