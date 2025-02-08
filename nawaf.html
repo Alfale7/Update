@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+
+<link rel="stylesheet" href="Css/style.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير</title>
+    <style>
+body {
+    font-family: Arial, sans-serif; /* أضف خطًا يدعم العربية إذا لزم الأمر */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #e6f7ff, #cceeff);
+}
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            border: 1px solid #99ccff;
+            border-radius: 10px;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ffffff, #e6f7ff);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .header {
+            grid-column: span 2;
+            background: linear-gradient(to right, #103d5e, #46b39d);
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .header .text {
+            text-align: right;
+            line-height: 1.5;
+            font-size: 1em;
+        }
+
+        .header .logo {
+            width: 120px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .fields {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            font-weight: normal;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            color: #103d5e;
+        }
+
+
+.field input, .field textarea {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #46b39d;
+    border-radius: 5px;
+    font-size: 0.85em;
+    box-sizing: border-box;
+    text-align: center; /* توسيط النصوص */
+    overflow: hidden; /* منع التجاوز */
+}
+
+
+        .field input:focus, .field textarea:focus {
+            border-color: #103d5e;
+            box-shadow: 0 0 5px rgba(16, 61, 94, 0.5);
+            outline: none;
+        }
+
+        .field textarea {
+            resize: none;
+            grid-column: span 2;
+        }
+
+        .shahid-section {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .shahid-section h3 {
+            text-align: center;
+            font-size: 1.2em;
+            color: #103d5e;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .shahid-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .shahid {
+            border: 1px solid #46b39d;
+            border-radius: 5px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #103d5e, #46b39d);
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .shahid img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: auto;
+        }
+
+        .shahid input[type="file"] {
+            display: none;
+        }
+
+        .buttons {
+            grid-column: span 2;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .buttons button.download {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .buttons button.download:hover {
+            background-color: #218838;
+        }
+
+        .footer {
+            grid-column: span 2;
+            font-size: 0.9em;
+            color: #103d5e;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .footer .programmer, .footer .manager {
+            font-size: 0.85em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer .programmer {
+            margin-right: 20px;
+            align-self: flex-end;
+        }
+
+        .footer .manager {
+            margin-left: 20px;
+            align-self: flex-end;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                font-size: 0.9em;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header .logo {
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+
+            .field input, .field textarea {
+                font-size: 0.75em;
+            }
+
+            .shahid {
+                height: 120px;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer .programmer, .footer .manager {
+                margin: 5px 0;
+            }
+        }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function toggleFileInput(id) {
+            const fileInput = document.getElementById(id);
+            if (fileInput) {
+                fileInput.click();
+            }
+        }
+
+        function displayImage(event, id) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.querySelector(`#${id} img`);
+                    if (img) {
+                        img.src = e.target.result;
+                        img.parentElement.classList.add('active');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function downloadAsImage() {
+    const container = document.querySelector('.container');
+    if (!container) {
+        alert('العنصر غير موجود');
+        return;
+    }
+
+    // نسخ النصوص من الحقول إلى عناصر نصية
+    const inputs = container.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        const textSpan = document.createElement('span');
+        textSpan.style.position = 'absolute';
+        textSpan.style.left = `${input.offsetLeft}px`;
+        textSpan.style.top = `${input.offsetTop}px`;
+        textSpan.style.width = `${input.offsetWidth}px`;
+        textSpan.style.height = `${input.offsetHeight}px`;
+        textSpan.style.fontSize = window.getComputedStyle(input).fontSize;
+        textSpan.style.fontFamily = window.getComputedStyle(input).fontFamily;
+        textSpan.style.lineHeight = window.getComputedStyle(input).lineHeight;
+        textSpan.style.textAlign = window.getComputedStyle(input).textAlign;
+        textSpan.style.color = '#000';
+        textSpan.style.display = 'flex';
+        textSpan.style.alignItems = 'center';
+        textSpan.style.justifyContent = 'center';
+        textSpan.textContent = input.value; // نص الحقل
+        textSpan.className = 'temp-span'; // لتحديد العناصر المؤقتة لاحقًا
+        container.appendChild(textSpan);
+    });
+
+    // إخفاء الحقول النصية أثناء التحويل
+    inputs.forEach(input => input.style.visibility = 'hidden');
+
+    // تحويل التقرير إلى صورة باستخدام html2canvas
+    html2canvas(container, {
+        scale: 3, // تحسين الدقة
+        useCORS: true,
+        backgroundColor: null,
+    }).then((canvas) => {
+        const link = document.createElement('a');
+        link.download = 'report.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        // إعادة الحقول والنصوص إلى وضعها الطبيعي
+        inputs.forEach(input => input.style.visibility = 'visible');
+        const tempSpans = container.querySelectorAll('.temp-span');
+        tempSpans.forEach(span => span.remove());
+    }).catch((error) => {
+        console.error('خطأ أثناء إنشاء الصورة:', error);
+    });
+}
+
+
+        function updateRegion() {
+            const regionInput = document.getElementById('regionInput');
+            if (regionInput) {
+                regionInput.placeholder = regionInput.value || 'أدخل منطقتك هنا';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+<div class="header">
+    <div class="text">
+        وزارة التربية والتعليم<br>
+        الإدارة العامة للتعليم<br>
+        مكتب التعليم بمنطقة 
+        <input 
+            type="text" 
+            id="regionInput" 
+            placeholder="أدخل منطقتك هنا" 
+            oninput="updateRegion()" 
+            style="border: none; border-bottom: 1px solid #fff; background: transparent; color: #fff; outline: none; font-size: 1em; width: 150px; text-align: center;">
+    </div>
+    <img src="logo.png" alt="شعار وزارة التعليم" class="logo">
+</div>
+
+    
+         <div class="fields">
+            <div class="field">
+                <label for="name">المنفذ/ة:</label>
+                <input type="text" id="name" placeholder="اسم المنفذ">
+            </div>
+
+            <div class="field">
+                <label for="location">مكان التنفيذ:</label>
+                <input type="text" id="location" placeholder="مكان التنفيذ">
+            </div>
+
+             <div class="field">
+                <label for="location">وصف البرنامج:</label>
+                <input type="text" id="location" placeholder="أكتب الوصف">
+            </div>
+
+            <div class="field">
+                <label for="beneficiaries">المستفيدون:</label>
+                <input type="text" id="beneficiaries" placeholder="عدد المستفيدين">
+            </div>
+
+      <div class="field">
+                <label for="beneficiaries">الفئة المستهدفه:</label>
+                <input type="text" id="beneficiaries" placeholder="الفئه المستهدفه">
+            </div>
+
+  <div class="field">
+                <label for="beneficiaries">اليوم</label>
+                <input type="text" id="beneficiaries" placeholder="ادخل اليوم">
+            </div>
+
+            <div class="field">
+                <label for="date">تاريخ التنفيذ:</label>
+                <input type="date" id="date">
+            </div>
+
+            <div class="field">
+                <label for="manager">مدير/ة المدرسة:</label>
+                <input type="text" id="manager" placeholder="اسم مدير المدرسة">
+            </div>
+
+            <div class="field">
+                <label for="objectives">الأهداف:</label>
+                <textarea id="objectives" rows="4" placeholder="اكتب الأهداف هنا..."></textarea>
+            </div>
+        </div>
+        <div class="shahid-section">
+            <h3>الشواهد ⤵️</h3>
+            <div class="shahid-grid">
+                <div id="shahid1" class="shahid" onclick="toggleFileInput('shahid1Input')">
+                    <input type="file" id="shahid1Input" accept="image/*" onchange="displayImage(event, 'shahid1')">
+                    <img src="" alt="">
+                </div>
+                <div id="shahid2" class="shahid" onclick="toggleFileInput('shahid2Input')">
+                    <input type="file" id="shahid2Input" accept="image/*" onchange="displayImage(event, 'shahid2')">
+                    <img src="" alt="">
+                </div>
+                <div id="shahid3" class="shahid" onclick="toggleFileInput('shahid3Input')">
+                    <input type="file" id="shahid3Input" accept="image/*" onchange="displayImage(event, 'shahid3')">
+                    <img src="" alt="">
+                </div>
+                <div id="shahid4" class="shahid" onclick="toggleFileInput('shahid4Input')">
+                    <input type="file" id="shahid4Input" accept="image/*" onchange="displayImage(event, 'shahid4')">
+                    <img src="" alt="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="buttons">
+            <button class="download" onclick="downloadAsImage()">تحميل التقرير</button>
+        </div>
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+    <!-- زر الرجوع إلى النماذج -->
+    <button onclick="location.href='choose.html'" style="background-color: #007BFF; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        الرجوع إلى النماذج
+    </button>
+
+    <!-- زر تسجيل الخروج -->
+    <button onclick="location.href='index.html'" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        تسجيل الخروج
+    </button>
+</div>     
+
+    </div>
+
+<script src="java/script.js"></script>
+</body>
+</html>
