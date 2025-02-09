@@ -47,7 +47,6 @@ function displayImage(event, id) {
     }
 }
 
-// 🟢 وظيفة تحميل التقرير كصورة فقط
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
@@ -56,24 +55,67 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
+    // 🟢 تثبيت حجم صندوق الشواهد لمنع التمدد
+    const shahidContainer = document.querySelector('.shahid-container');
+    if (shahidContainer) {
+        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
+        shahidContainer.style.overflow = 'hidden';
+    }
 
-        // ✅ حفظ كصورة
+    // 🟢 تحويل الحقول النصية إلى نصوص ثابتة
+    const inputs = container.querySelectorAll('input, textarea');
+    const tempElements = [];
+
+    inputs.forEach(input => {
+        const textElement = document.createElement('div');
+        textElement.textContent = input.value || input.placeholder;
+        textElement.style.cssText = `
+            width: ${input.offsetWidth}px;
+            height: ${input.offsetHeight}px;
+            font-size: ${window.getComputedStyle(input).fontSize};
+            font-family: ${window.getComputedStyle(input).fontFamily};
+            color: #000;
+            background-color: white;
+            text-align: ${input.style.textAlign || 'right'};
+            display: flex;
+            align-items: center;
+            justify-content: ‏right;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            position: absolute;
+            left: ${input.getBoundingClientRect().left}px;
+            top: ${input.getBoundingClientRect().top}px;
+        `;
+        textElement.className = 'temp-text';
+        container.appendChild(textElement);
+        tempElements.push(textElement);
+        input.style.visibility = 'hidden';
+    });
+
+    // 🟢 تحويل الصفحة إلى صورة باستخدام html2canvas
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'report.png';
-        link.href = imageData;
+        link.href = canvas.toDataURL('image/png');
         link.click();
 
-        // 🟢 إعادة الأزرار لوضعها الطبيعي
-        buttons.forEach(button => button.style.display = 'block');
+        // 🟢 إعادة الأزرار والحقول النصية لحالتها الطبيعية
+        buttons.forEach(button => button.style.display = 'flex');
+        if (shahidContainer) {
+            shahidContainer.style.maxHeight = '';
+            shahidContainer.style.overflow = '';
+        }
+
+        inputs.forEach(input => input.style.visibility = 'visible');
+        tempElements.forEach(el => el.remove());
     }).catch(error => {
         console.error('❌ خطأ أثناء إنشاء الصورة:', error);
-        buttons.forEach(button => button.style.display = 'block');
+        buttons.forEach(button => button.style.display = 'flex');
     });
 }
 
-// 🟢 وظيفة تحميل التقرير كـ PDF فقط
+
 // 🟢 وظيفة تحميل التقرير كـ PDF مع ضبط الأبعاد تلقائيًا
 function downloadAsPDF() {
     const container = document.querySelector('.container');
