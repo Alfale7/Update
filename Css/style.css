@@ -1,4 +1,113 @@
 
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f9ff;
+        }
+        header {
+            background-color: #003d5b;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .intro h2 {
+            color: #003d5b;
+            font-size: 1.8rem;
+        }
+        .intro p {
+            font-size: 1.2rem;
+            color: #444;
+        }
+        .intro .button {
+            background-color: orange;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .intro .button:hover {
+            background-color: #ff7700;
+        }
+        .images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .images img {
+            max-width: 250px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .images img:hover {
+            transform: scale(1.05);
+        }
+        .login-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #003d5b;
+        }
+        .login-container label {
+            display: block;
+            text-align: right;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container .button {
+            background-color: #003d5b;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .login-container .button:hover {
+            background-color: #005580;
+        }
+        footer {
+            background-color: #003d5b;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    
 
 ‎/* تحسين الأزرار */
 button {
