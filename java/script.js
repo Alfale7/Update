@@ -58,18 +58,58 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
+    // 🟢 استبدال الحقول النصية بعناصر نص ثابتة
+    const inputs = container.querySelectorAll('input, textarea');
+    const tempElements = [];
 
-    // 🟢 التقاط الصورة باستخدام html2canvas
-    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
+    inputs.forEach(input => {
+        const textElement = document.createElement('div');
+        textElement.textContent = input.value || input.placeholder;
+        const computedStyle = window.getComputedStyle(input);
 
-        // ✅ تحميل الصورة
+        Object.assign(textElement.style, {
+            position: 'absolute',
+            width: `${input.offsetWidth}px`,
+            height: `${input.offsetHeight}px`,
+            fontSize: computedStyle.fontSize,
+            fontFamily: computedStyle.fontFamily,
+            color: '#000',
+            textAlign: 'right',
+            lineHeight: computedStyle.lineHeight,
+            backgroundColor: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'right',
+            padding: '5px',
+            border: computedStyle.border,
+            borderRadius: computedStyle.borderRadius,
+        });
+
+        // ضبط موضع النص ليكون مطابقًا لمكان الحقل
+        const rect = input.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        textElement.style.right = `${containerRect.right - rect.right}px`;
+        textElement.style.top = `${rect.top - containerRect.top}px`;
+
+        textElement.className = 'temp-text';
+        container.appendChild(textElement);
+        tempElements.push(textElement);
+
+        input.style.visibility = 'hidden';
+    });
+
+    // 🟢 استخدام html2canvas لتحويل التقرير إلى صورة
+    html2canvas(container, {
+        scale: 3, 
+        useCORS: true, 
+        backgroundColor: '#ffffff'
+    }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'report.png';
-        link.href = imageData;
+        link.href = canvas.toDataURL('image/png');
         link.click();
 
-        // 🟢 إعادة الأزرار لوضعها الطبيعي
+        // 🟢 إعادة الأزرار والحقول لحالتها الطبيعية
         buttons.forEach(button => button.style.display = 'block');
         inputs.forEach(input => input.style.visibility = 'visible');
         tempElements.forEach(el => el.remove());
