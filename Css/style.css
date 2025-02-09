@@ -48,9 +48,18 @@ button:hover {
     object-fit: cover;
     border-radius: 8px;
 }
-.header .text {
-    text-align: center;
-    font-size: 18px;
+/* تحسين مظهر إدخال المنطقة */
+.header .text input {
+    display: inline;
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    color: #fff !important; /* يجبر اللون ليكون أبيض */
+    outline: none;
+    font-size: 1em;
+    width: auto;
+    font-weight: bold;
+    text-align: right;
 }
 
 ‎/* تصميم الحقول */
