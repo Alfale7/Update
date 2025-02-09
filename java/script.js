@@ -46,7 +46,7 @@ function displayImage(event, id) {
         reader.readAsDataURL(file);
     }
 }
-// 🟢 وظيفة تحميل التقرير كصورة
+
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
@@ -55,9 +55,16 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
+    // تثبيت حجم صندوق الشواهد لمنع التمدد
+    const shahidContainer = document.querySelector('.shahid-container');
+    if (shahidContainer) {
+        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
+        shahidContainer.style.overflow = 'hidden';
+    }
+
     // تحويل الحقول النصية إلى عناصر نصية ثابتة بمحاذاة اليمين
     const inputs = container.querySelectorAll('input, textarea');
-    const tempElements = []; // قائمة لحفظ العناصر المؤقتة
+    const tempElements = [];
 
     inputs.forEach(input => {
         const rect = input.getBoundingClientRect();
@@ -99,14 +106,17 @@ function downloadAsImage() {
         link.href = canvas.toDataURL('image/png');
         link.click();
 
-        // استعادة جميع العناصر بعد التحميل
+        // إعادة الأزرار وصندوق الشواهد لحالتها الطبيعية
         buttons.forEach(button => button.style.display = 'flex');
+        if (shahidContainer) {
+            shahidContainer.style.maxHeight = '';
+            shahidContainer.style.overflow = '';
+        }
+
         inputs.forEach(input => input.style.visibility = 'visible');
         tempElements.forEach(el => el.remove());
     }).catch(error => {
         console.error('❌ خطأ أثناء إنشاء الصورة:', error);
-        
-        // إعادة الأزرار حتى لو حدث خطأ
         buttons.forEach(button => button.style.display = 'flex');
     });
 }
