@@ -1,252 +1,84 @@
 
-        body {
-            font-family: 'Arial', sans-serif;
+/* ======== هذا الكود خاص بملف choose.html ======== */
+body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom, #e3fdfd, #cbf1f5, #a6e3e9);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            background-color: #f4f9ff;
-        }
-        header {
-            background-color: #003d5b;
-            color: white;
             text-align: center;
-            padding: 20px;
-        }
-        .container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-        .intro {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .intro h2 {
-            color: #003d5b;
-            font-size: 1.8rem;
-        }
-        .intro p {
-            font-size: 1.2rem;
-            color: #444;
-        }
-        .intro .button {
-            background-color: orange;
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .intro .button:hover {
-            background-color: #ff7700;
-        }
-        .images {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .images img {
-            max-width: 250px;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .images img:hover {
-            transform: scale(1.05);
-        }
-        .login-container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 40px auto;
-            text-align: center;
-        }
-        .login-container h2 {
-            margin-bottom: 20px;
             color: #003d5b;
         }
-        .login-container label {
-            display: block;
-            text-align: right;
-            margin-bottom: 10px;
-            color: #333;
+
+        /* عنوان الصفحة */
+        h1 {
+            font-size: 40px;
+            margin: 30px 0;
+            text-shadow: 2px 2px 10px rgba(0, 61, 91, 0.3);
             font-weight: bold;
         }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        /* الحاوية الأساسية */
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
-        .login-container .button {
-            background-color: #003d5b;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 1rem;
+
+        /* بطاقات التصاميم */
+        .option {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 61, 91, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            width: 350px;
+            overflow: hidden;
+            display: inline-block;
+            border: 2px solid #00a5cf;
         }
-        .login-container .button:hover {
-            background-color: #005580;
+
+        .option:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 61, 91, 0.3);
         }
-        footer {
-            background-color: #003d5b;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
+
+        /* صور التصاميم */
+        .option img {
             width: 100%;
-            bottom: 0;
+            height: 600px;
+            object-fit: fill;
+            border-bottom: 2px solid #00a5cf;
         }
-    
 
-‎/* تحسين الأزرار */
-button {
-    transition: transform 0.2s, background-color 0.2s;
-    background: linear-gradient(45deg, #0D2F3B, #1E5A6A);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-button:hover {
-    transform: scale(1.1);
-    background: linear-gradient(45deg, #1E5A6A, #0D2F3B);
-    color: #ffffff;
-}
+        /* عنوان التصميم */
+        .option h2 {
+            background: linear-gradient(90deg, #00a5cf, #0096c7);
+            color: white;
+            margin: 0;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
 
-‎/* تصميم الحاويات الرئيسية */
-.container {
-    width: 90%;
-    max-width: 90%;
-    margin: auto;
-    border: 1px solid #99ccff;
-    border-radius: 10px;
-    background: white;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 20px;
-    position: relative;
-}
+        /* تحسين العرض على الجوال */
+        @media (max-width: 768px) {
+            .option {
+                width: 300px;
+                height: auto;
+            }
 
-‎/* تحسين رأس الصفحة */
-.header {
-    grid-column: span 2;
-    background: linear-gradient(to right, #103d5e, #46b39d);
-    color: #fff;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 20px;
-}
-.header .logo {
-    width: 120px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-.header .text {
-    text-align: center;
-    font-size: 18px;
-}
+            .option img {
+                height: auto;
+            }
+        }
 
-‎/* تصميم الحقول */
-.fields {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-.field {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-.field label {
-    margin-bottom: 5px;
-    color: #103d5e;
-    font-size: 16px;
-}
 
-.field input, .field textarea {
-    text-align: center;
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    height: 40px;
-    border: 1px solid #46b39d;
-    box-sizing: border-box;
-}
 
-.field input:focus, .field textarea:focus {
-    border-color: #103d5e;
-    outline: none;
-}
 
-‎/* تحسين النصوص عند التحويل */
-.temp-element {
-    position: absolute;
-    font-size: 16px;
-    text-align: center;
-    white-space: pre-wrap;
-    color: #103d5e;
-    background: transparent;
-}
 
-‎/* تحسين الأزرار */
-.buttons {
-    grid-column: span 2;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-.buttons button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-body {
-    font-family: 'Cairo', 'Tajawal', Arial, sans-serif; /* أضف الخطوط هنا */
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background: linear-gradient(to bottom, #e6f7ff, #cceeff);
-}
-
-.field input, .field textarea {
-    font-family: 'Cairo', 'Tajawal', Arial, sans-serif; /* الخطوط */
-    font-size: 14px; /* حجم النص */
-    padding: 10px; /* مسافة داخلية */
-    border: 1px solid #46b39d;
-    border-radius: 8px; /* حواف مستديرة */
-    box-sizing: border-box;
-    text-align: right; /* محاذاة النص */
-    width: 100%; /* عرض الحقل بالكامل */
-    max-width: 400px; /* حد أقصى للعرض */
-    resize: none; /* منع تغيير حجم الحقول */
-}
-
-.field textarea {
-    height: 80px; /* ارتفاع مناسب للنصوص */
-    max-width: 100%; /* حد أقصى للعرض */
-}
-
-}
-.field input:focus, .field textarea:focus {
-    border-color: #103d5e;
-    outline: none;
-}
