@@ -178,3 +178,44 @@ function showError(message, element) {
         setTimeout(() => { element.style.display = "none"; }, 3000);
     }
 }
+
+
+
+function downloadAsPDF() {
+    const container = document.querySelector('.container');
+    if (!container) return alert('العنصر غير موجود');
+
+    // إخفاء الأزرار أثناء التحميل
+    const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
+    buttons.forEach(button => button.style.display = 'none');
+
+    // تثبيت حجم صندوق الشواهد لمنع التمدد
+    const shahidContainer = document.querySelector('.shahid-container');
+    if (shahidContainer) {
+        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
+        shahidContainer.style.overflow = 'hidden';
+    }
+
+    // تحويل التقرير إلى صورة وإضافته لـ PDF
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4'); // إنشاء PDF بحجم A4
+
+        // حساب أبعاد الصورة داخل الـ PDF
+        const imgWidth = 210; // عرض A4 بالـ mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // الحفاظ على تناسب الأبعاد
+
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('report.pdf');
+
+        // إعادة الأزرار وصندوق الشواهد لوضعهم الطبيعي
+        buttons.forEach(button => button.style.display = 'flex');
+        if (shahidContainer) {
+            shahidContainer.style.maxHeight = '';
+            shahidContainer.style.overflow = '';
+        }
+    }).catch(error => {
+        console.error('❌ خطأ أثناء إنشاء PDF:', error);
+        buttons.forEach(button => button.style.display = 'flex');
+    });
+}
