@@ -48,11 +48,39 @@ function displayImage(event, id) {
 }
 
 // 🟢 وظيفة تحميل التقرير كصورة أو PDF
+// 🟢 وظيفة تحميل التقرير كصورة فقط
+// 🟢 وظيفة تحميل التقرير كصورة فقط
+function downloadAsImage() {
+    const container = document.querySelector('.container');
+    if (!container) return alert('العنصر غير موجود');
+
+    // 🟢 إخفاء الأزرار أثناء التحميل
+    const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
+    buttons.forEach(button => button.style.display = 'none');
+
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+
+        // ✅ حفظ كصورة
+        const link = document.createElement('a');
+        link.download = 'report.png';
+        link.href = imageData;
+        link.click();
+
+        // 🟢 إعادة الأزرار لوضعها الطبيعي
+        buttons.forEach(button => button.style.display = 'block');
+    }).catch(error => {
+        console.error('❌ خطأ أثناء إنشاء الصورة:', error);
+        buttons.forEach(button => button.style.display = 'block');
+    });
+}
+
+// 🟢 وظيفة تحميل التقرير كـ PDF فقط
 function downloadAsPDF() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
 
-    // 🟢 تحويل الحقول النصية إلى نصوص ثابتة مؤقتًا
+    // 🟢 تحويل الحقول إلى نصوص ثابتة مؤقتًا
     const inputs = container.querySelectorAll('input, textarea');
     const tempElements = [];
 
@@ -92,12 +120,18 @@ function downloadAsPDF() {
         input.style.visibility = 'hidden';
     });
 
-    // 🟢 تحويل التقرير إلى صورة ثم PDF
-    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
-        generatePDF(imageData);
+    // 🟢 تحويل الصفحة إلى صورة ثم إلى PDF
+    html2canvas(container, { scale: 4, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
 
-        // 🟢 إعادة الحقول إلى وضعها الطبيعي
+        const imgWidth = 210; // عرض الورقة A4 بالـ mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // حساب الطول بناءً على العرض
+
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('report.pdf');
+
+        // 🟢 إعادة الحقول لوضعها الطبيعي
         inputs.forEach(input => input.style.visibility = 'visible');
         tempElements.forEach(el => el.remove());
     }).catch(error => {
