@@ -167,3 +167,10 @@ function showError(message, element) {
         setTimeout(() => (element.style.display = "none"), 3000);
     }
 }
+
+function updateRegion() {
+    const regionInput = document.getElementById('regionInput');
+    if (regionInput) {
+        regionInput.placeholder = regionInput.value || 'أدخل منطقتك هنا';
+    }
+}
