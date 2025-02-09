@@ -47,6 +47,9 @@ function displayImage(event, id) {
     }
 }
 
+
+
+
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
@@ -55,37 +58,34 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    // 🟢 تثبيت حجم صندوق الشواهد لمنع التمدد
-    const shahidContainer = document.querySelector('.shahid-container');
-    if (shahidContainer) {
-        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
-        shahidContainer.style.overflow = 'hidden';
-    }
-
-    // 🟢 تحويل الحقول النصية إلى نصوص ثابتة
+    // 🟢 تحويل الحقول النصية إلى نصوص ثابتة مع ضبط المحاذاة
     const inputs = container.querySelectorAll('input, textarea');
     const tempElements = [];
 
     inputs.forEach(input => {
+        const rect = input.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(input);
+
         const textElement = document.createElement('div');
         textElement.textContent = input.value || input.placeholder;
         textElement.style.cssText = `
-            width: ${input.offsetWidth}px;
-            height: ${input.offsetHeight}px;
-            font-size: ${window.getComputedStyle(input).fontSize};
-            font-family: ${window.getComputedStyle(input).fontFamily};
-            color: #000;
+            width: ${rect.width}px;
+            height: ${rect.height}px;
+            font-size: ${computedStyle.fontSize};
+            font-family: ${computedStyle.fontFamily};
+            color: black;
             background-color: white;
-            text-align: ${input.style.textAlign || 'right'};
             display: flex;
             align-items: center;
-            justify-content: ‏right;
+            justify-content: right;
             border: 1px solid #ccc;
-            padding: 5px;
             border-radius: 5px;
+            padding: 5px;
             position: absolute;
-            left: ${input.getBoundingClientRect().left}px;
-            top: ${input.getBoundingClientRect().top}px;
+            left: ${rect.left}px;
+            top: ${rect.top}px;
+            text-align: right; /* محاذاة النص لليمين */
+            direction: rtl; /* جعل الاتجاه من اليمين لليسار */
         `;
         textElement.className = 'temp-text';
         container.appendChild(textElement);
@@ -93,7 +93,7 @@ function downloadAsImage() {
         input.style.visibility = 'hidden';
     });
 
-    // 🟢 تحويل الصفحة إلى صورة باستخدام html2canvas
+    // 🟢 تحويل التقرير إلى صورة باستخدام html2canvas
     html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'report.png';
@@ -102,11 +102,6 @@ function downloadAsImage() {
 
         // 🟢 إعادة الأزرار والحقول النصية لحالتها الطبيعية
         buttons.forEach(button => button.style.display = 'flex');
-        if (shahidContainer) {
-            shahidContainer.style.maxHeight = '';
-            shahidContainer.style.overflow = '';
-        }
-
         inputs.forEach(input => input.style.visibility = 'visible');
         tempElements.forEach(el => el.remove());
     }).catch(error => {
@@ -116,38 +111,69 @@ function downloadAsImage() {
 }
 
 
+
+
 // 🟢 وظيفة تحميل التقرير كـ PDF مع ضبط الأبعاد تلقائيًا
 function downloadAsPDF() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
 
-    // 🟢 تحويل الصفحة إلى صورة ثم إلى PDF
-    html2canvas(container, { scale: 4, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+    // 🟢 إخفاء الأزرار أثناء التحميل
+    const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
+    buttons.forEach(button => button.style.display = 'none');
+
+    // 🟢 تحويل الحقول النصية إلى نصوص ثابتة مع ضبط المحاذاة
+    const inputs = container.querySelectorAll('input, textarea');
+    const tempElements = [];
+
+    inputs.forEach(input => {
+        const rect = input.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(input);
+
+        const textElement = document.createElement('div');
+        textElement.textContent = input.value || input.placeholder;
+        textElement.style.cssText = `
+            width: ${rect.width}px;
+            height: ${rect.height}px;
+            font-size: ${computedStyle.fontSize};
+            font-family: ${computedStyle.fontFamily};
+            color: black;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: right;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            left: ${rect.left}px;
+            top: ${rect.top}px;
+            text-align: right;
+            direction: rtl;
+        `;
+        textElement.className = 'temp-text';
+        container.appendChild(textElement);
+        tempElements.push(textElement);
+        input.style.visibility = 'hidden';
+    });
+
+    // 🟢 تحويل الصفحة إلى صورة عالية الدقة ثم إضافتها إلى PDF
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
-
-        const imgWidth = 210; // عرض الورقة A4 بالـ mm
+        const imgWidth = 210; // عرض A4
         const imgHeight = (canvas.height * imgWidth) / canvas.width; // حساب الطول بناءً على العرض
 
-        // ✅ التحقق مما إذا كانت الصورة أطول من صفحة واحدة
-        let pageHeight = 297; // ارتفاع صفحة A4 بالـ mm
-        let heightLeft = imgHeight;
-        let yPosition = 0;
-
-        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, yPosition, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        // ✅ إذا كان المحتوى أطول من صفحة A4، يتم تقسيمه إلى عدة صفحات
-        while (heightLeft > 0) {
-            yPosition -= pageHeight;
-            pdf.addPage();
-            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, yPosition, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-        }
-
+        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
         pdf.save('report.pdf');
+
+        // 🟢 إعادة الأزرار والحقول النصية لحالتها الطبيعية
+        buttons.forEach(button => button.style.display = 'flex');
+        inputs.forEach(input => input.style.visibility = 'visible');
+        tempElements.forEach(el => el.remove());
     }).catch(error => {
         console.error('❌ خطأ أثناء إنشاء PDF:', error);
+        buttons.forEach(button => button.style.display = 'flex');
     });
 }
 
