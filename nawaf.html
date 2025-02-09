@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تقرير</title>
+
+
     <style>
 body {
     font-family: Arial, sans-serif; /* أضف خطًا يدعم العربية إذا لزم الأمر */
@@ -240,90 +242,7 @@ body {
         }
 
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script>
-        function toggleFileInput(id) {
-            const fileInput = document.getElementById(id);
-            if (fileInput) {
-                fileInput.click();
-            }
-        }
-
-        function displayImage(event, id) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = document.querySelector(`#${id} img`);
-                    if (img) {
-                        img.src = e.target.result;
-                        img.parentElement.classList.add('active');
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function downloadAsImage() {
-    const container = document.querySelector('.container');
-    if (!container) {
-        alert('العنصر غير موجود');
-        return;
-    }
-
-    // نسخ النصوص من الحقول إلى عناصر نصية
-    const inputs = container.querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-        const textSpan = document.createElement('span');
-        textSpan.style.position = 'absolute';
-        textSpan.style.left = `${input.offsetLeft}px`;
-        textSpan.style.top = `${input.offsetTop}px`;
-        textSpan.style.width = `${input.offsetWidth}px`;
-        textSpan.style.height = `${input.offsetHeight}px`;
-        textSpan.style.fontSize = window.getComputedStyle(input).fontSize;
-        textSpan.style.fontFamily = window.getComputedStyle(input).fontFamily;
-        textSpan.style.lineHeight = window.getComputedStyle(input).lineHeight;
-        textSpan.style.textAlign = window.getComputedStyle(input).textAlign;
-        textSpan.style.color = '#000';
-        textSpan.style.display = 'flex';
-        textSpan.style.alignItems = 'center';
-        textSpan.style.justifyContent = 'center';
-        textSpan.textContent = input.value; // نص الحقل
-        textSpan.className = 'temp-span'; // لتحديد العناصر المؤقتة لاحقًا
-        container.appendChild(textSpan);
-    });
-
-    // إخفاء الحقول النصية أثناء التحويل
-    inputs.forEach(input => input.style.visibility = 'hidden');
-
-    // تحويل التقرير إلى صورة باستخدام html2canvas
-    html2canvas(container, {
-        scale: 3, // تحسين الدقة
-        useCORS: true,
-        backgroundColor: null,
-    }).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = 'report.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-
-        // إعادة الحقول والنصوص إلى وضعها الطبيعي
-        inputs.forEach(input => input.style.visibility = 'visible');
-        const tempSpans = container.querySelectorAll('.temp-span');
-        tempSpans.forEach(span => span.remove());
-    }).catch((error) => {
-        console.error('خطأ أثناء إنشاء الصورة:', error);
-    });
-}
-
-
-        function updateRegion() {
-            const regionInput = document.getElementById('regionInput');
-            if (regionInput) {
-                regionInput.placeholder = regionInput.value || 'أدخل منطقتك هنا';
-            }
-        }
-    </script>
+    
 </head>
 <body>
     <div class="container">
@@ -429,6 +348,8 @@ body {
 </div>     
 
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script src="java/script.js"></script>
 </body>
