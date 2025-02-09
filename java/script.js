@@ -140,11 +140,11 @@ function login(event) {
 
     const phone = document.getElementById('phone').value.trim();
     const password = document.getElementById('password').value.trim();
-    const errorElement = document.getElementById('error');
+    const errorElement = document.getElementById('error'); // تأكد من وجود div بهذا الـ ID في index.html
 
     if (!phone || !password) {
         showError("يرجى تعبئة جميع الحقول.", errorElement);
-        return;
+        return false;
     }
 
     if (users[phone] && users[phone] === password) {
@@ -153,8 +153,10 @@ function login(event) {
 
         // ✅ توجيه المستخدم إلى صفحة choose.html بعد نجاح تسجيل الدخول
         window.location.href = "choose.html";
+        return false;
     } else {
         showError("رقم الجوال أو كلمة المرور غير صحيحة.", errorElement);
+        return false;
     }
 }
 
@@ -164,7 +166,6 @@ function showError(message, element) {
         element.textContent = message;
         element.style.color = "red";
         element.style.display = "block";
-        setTimeout(() => (element.style.display = "none"), 
+        setTimeout(() => { element.style.display = "none"; }, 3000);
+    }
 }
-
-
