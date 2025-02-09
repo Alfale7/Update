@@ -1,24 +1,18 @@
-
+// تحديد منطقة الشواهد
 const shahidGrid = document.getElementById("shahid-grid");
 
-// Function to remove a witness (shahid)
+// 🟢 وظيفة إزالة الشاهد
 function removeShahid(id) {
     const shahid = document.getElementById(id);
     if (shahid) {
         shahid.remove();
-        console.log(`Removed shahid: ${id}`);
-    } else {
-        console.error(`Shahid with ID ${id} not found`);
     }
 }
 
-// Function to add a new witness (shahid)
+// 🟢 وظيفة إضافة شاهد جديد
 function addShahid() {
-    const shahidGrid = document.getElementById("shahid-grid");
-    if (!shahidGrid) {
-        console.error("Element with ID 'shahid-grid' not found.");
-        return;
-    }
+    if (!shahidGrid) return;
+
     const newId = `shahid${shahidGrid.children.length + 1}`;
     const newShahid = document.createElement("div");
     newShahid.className = "shahid";
@@ -32,137 +26,123 @@ function addShahid() {
     shahidGrid.appendChild(newShahid);
 }
 
-// Function to simulate file input click
+// 🟢 وظيفة رفع الصورة
 function toggleFileInput(id) {
     const fileInput = document.getElementById(id);
     if (fileInput) {
         fileInput.click();
-        console.log(`Opened file input for ID: ${id}`);
-    } else {
-        console.error(`File input with ID ${id} not found`);
     }
 }
 
-// Function to display uploaded image inside a shahid
+// 🟢 وظيفة عرض الصورة
 function displayImage(event, id) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
             const img = document.querySelector(`#${id} img`);
-            if (img) {
-                img.src = e.target.result;
-            } else {
-                console.error(`Image element for ID ${id} not found`);
-            }
+            if (img) img.src = e.target.result;
         };
         reader.readAsDataURL(file);
-    } else {
-        console.error("No file selected.");
     }
 }
 
+// 🟢 وظيفة تحميل التقرير كصورة
 function downloadAsImage() {
     const container = document.querySelector('.container');
-    if (!container) {
-        alert('Container not found!');
-        return;
-    }
+    if (!container) return alert('العنصر غير موجود');
 
+    // إخفاء الأزرار
+    const buttons = document.querySelectorAll('.buttons-container, .download, .exit-buttons');
+    buttons.forEach(button => button.style.display = 'none');
+
+    // تحويل الحقول النصية لعناصر ثابتة بمحاذاة اليمين
     const inputs = container.querySelectorAll('input, textarea');
-    const tempElements = [];
-
     inputs.forEach(input => {
-        const rect = input.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        const computedStyle = window.getComputedStyle(input);
-
-        const textElement = document.createElement('div');
-        textElement.style.position = 'absolute';
-        textElement.style.left = `${rect.left - containerRect.left}px`;
-        textElement.style.top = `${rect.top - containerRect.top}px`;
-        textElement.style.width = `${rect.width}px`;
-        textElement.style.height = `${rect.height}px`;
-        textElement.style.fontSize = computedStyle.fontSize;
-        textElement.style.fontFamily = computedStyle.fontFamily;
-        textElement.style.color = computedStyle.color;
-        textElement.style.textAlign = 'right';  // محاذاة لليمين
-        textElement.style.direction = 'rtl';  // الكتابة من اليمين إلى اليسار
-        textElement.style.lineHeight = computedStyle.lineHeight;
-        textElement.style.display = 'flex';
-        textElement.style.alignItems = 'center';
-        textElement.style.padding = '5px';
-        textElement.style.whiteSpace = 'nowrap'; // منع التفاف النص
-        textElement.style.overflow = 'hidden';
-        textElement.textContent = input.value || input.placeholder;
-        textElement.className = 'temp-element';
-
-        container.appendChild(textElement);
-        tempElements.push(textElement);
-
-        input.style.visibility = 'hidden';
+        const textSpan = document.createElement('span');
+        Object.assign(textSpan.style, {
+            position: 'absolute',
+            left: `${input.offsetLeft}px`,
+            top: `${input.offsetTop}px`,
+            width: `${input.offsetWidth}px`,
+            height: `${input.offsetHeight}px`,
+            fontSize: window.getComputedStyle(input).fontSize,
+            fontFamily: window.getComputedStyle(input).fontFamily,
+            lineHeight: window.getComputedStyle(input).lineHeight,
+            textAlign: 'right',
+            color: '#000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'right',
+        });
+        textSpan.textContent = input.value;
+        textSpan.className = 'temp-span';
+        container.appendChild(textSpan);
     });
 
-    html2canvas(container, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-    }).then(canvas => {
+    // إخفاء الحقول أثناء التحميل
+    inputs.forEach(input => input.style.visibility = 'hidden');
+
+    // تحويل إلى صورة
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then((canvas) => {
         const link = document.createElement('a');
-        link.download = 'report.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.download = 'report.png';
+        link.href = canvas.toDataURL('image/png');
         link.click();
 
-        inputs.forEach(input => (input.style.visibility = 'visible'));
-        tempElements.forEach(el => el.remove());
+        // إعادة الأزرار والحقول لحالتها الطبيعية
+        buttons.forEach(button => button.style.display = 'flex');
+        inputs.forEach(input => input.style.visibility = 'visible');
+        document.querySelectorAll('.temp-span').forEach(span => span.remove());
     }).catch(error => {
-        console.error('Error generating image:', error);
+        console.error('خطأ أثناء إنشاء الصورة:', error);
+        buttons.forEach(button => button.style.display = 'flex');
     });
 }
 
-
-
-// بيانات المستخدمين (رقم الجوال وكلمة المرور)
+// بيانات تسجيل الدخول (رقم الجوال وكلمة المرور)
 const users = {
-    "0504854223": "1122", // مثال على رقم الجوال وكلمة المرور
+    "0504854223": "1234",
     "0506399549": "1234",
-    "0551234567": "3344"
+    "0551234567": "3344",
+    "0530490887": "1234",
+    "0531415531": "1234",
+    "0558176875": "1234",
+    "0559357091": "1234",
+    "0503393365": "1234",
+    "0536183076": "1234"
 };
 
-// دالة تسجيل الدخول
-function login() {
-    // جلب قيم الحقول
+// وظيفة تسجيل الدخول
+function login(event) {
+    event.preventDefault(); // منع إرسال النموذج الافتراضي
+
     const phone = document.getElementById('phone').value.trim();
     const password = document.getElementById('password').value.trim();
     const errorElement = document.getElementById('error');
 
-    // التحقق من تعبئة الحقول
     if (!phone || !password) {
         showError("يرجى تعبئة جميع الحقول.", errorElement);
         return;
     }
 
-    // التحقق من صحة البيانات
     if (users[phone] && users[phone] === password) {
-        // حفظ بيانات الدخول في Local Storage
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userPhone', phone);
 
-        // الانتقال إلى الصفحة التالية
-        window.location.href = 'choose_report.html'; // اسم الصفحة التي تريد فتحها
+        // ✅ توجيه المستخدم إلى صفحة choose.html بعد نجاح تسجيل الدخول
+        window.location.href = "choose.html";
     } else {
         showError("رقم الجوال أو كلمة المرور غير صحيحة.", errorElement);
     }
 }
 
-// دالة عرض رسالة الخطأ
+// وظيفة عرض رسالة الخطأ
 function showError(message, element) {
-    element.textContent = message;
-    element.style.color = "red";
-    element.style.display = "block";
-
-    // إخفاء الرسالة بعد 3 ثوانٍ
-    setTimeout(() => (element.style.display = "none"), 3000);
+    if (element) {
+        element.textContent = message;
+        element.style.color = "red";
+        element.style.display = "block";
+        setTimeout(() => (element.style.display = "none"), 3000);
+    }
 }
-
-
