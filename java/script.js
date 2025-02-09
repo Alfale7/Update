@@ -47,59 +47,16 @@ function displayImage(event, id) {
     }
 }
 
+// 🟢 وظيفة تحميل التقرير كصورة أو PDF
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
 
-    // إخفاء جميع الأزرار أثناء التحميل
+    // 🟢 إخفاء الأزرار أثناء التحميل
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    // تثبيت حجم صندوق الشواهد لمنع التمدد
-    const shahidContainer = document.querySelector('.shahid-container');
-    if (shahidContainer) {
-        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
-        shahidContainer.style.overflow = 'hidden';
-    }
-
-    // تحويل الحقول النصية إلى عناصر نصية ثابتة بمحاذاة اليمين
-    const inputs = container.querySelectorAll('input, textarea');
-    const tempElements = [];
-
-    inputs.forEach(input => {
-        const rect = input.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        const computedStyle = window.getComputedStyle(input);
-
-        const textElement = document.createElement('div');
-        Object.assign(textElement.style, {
-            position: 'absolute',
-            right: `${containerRect.right - rect.right}px`, // محاذاة اليمين
-            top: `${rect.top - containerRect.top}px`,
-            width: `${rect.width}px`,
-            height: `${rect.height}px`,
-            fontSize: computedStyle.fontSize,
-            fontFamily: computedStyle.fontFamily,
-            color: '#000',
-            textAlign: 'right',
-            lineHeight: computedStyle.lineHeight,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'right',
-            padding: '5px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-        });
-
-        textElement.textContent = input.value || input.placeholder;
-        textElement.className = 'temp-text';
-        container.appendChild(textElement);
-        tempElements.push(textElement);
-
-        input.style.visibility = 'hidden';
-    });
-
-    // تحويل التقرير إلى صورة باستخدام html2canvas
+    // 🟢 تحويل التقرير إلى صورة باستخدام html2canvas
     html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
         const imageData = canvas.toDataURL('image/png');
 
@@ -110,28 +67,42 @@ function downloadAsImage() {
         link.click();
 
         // ✅ حفظ كـ PDF
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210; // عرض الورقة A4 بالـ mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('report.pdf');
+        generatePDF(imageData);
 
-        // إعادة الأزرار وصندوق الشواهد لحالتها الطبيعية
-        buttons.forEach(button => button.style.display = 'flex');
-        if (shahidContainer) {
-            shahidContainer.style.maxHeight = '';
-            shahidContainer.style.overflow = '';
-        }
-
-        inputs.forEach(input => input.style.visibility = 'visible');
-        tempElements.forEach(el => el.remove());
+        // 🟢 إعادة الأزرار لوضعها الطبيعي
+        buttons.forEach(button => button.style.display = 'block');
     }).catch(error => {
         console.error('❌ خطأ أثناء إنشاء الصورة:', error);
-        buttons.forEach(button => button.style.display = 'flex');
+        buttons.forEach(button => button.style.display = 'block');
     });
 }
 
-// بيانات تسجيل الدخول (رقم الجوال وكلمة المرور)
+// 🟢 وظيفة تحميل التقرير كـ PDF
+function generatePDF(imageData) {
+    const { jsPDF } = window.jspdf; // التأكد من استدعاء jsPDF بشكل صحيح
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    const imgWidth = 210; // عرض الورقة A4 بالـ mm
+    const imgHeight = (297 * imgWidth) / 210; // نسبة الارتفاع للحفاظ على الأبعاد الصحيحة
+
+    pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.save('report.pdf');
+}
+
+// 🟢 زر تحميل PDF مستقل
+function downloadAsPDF() {
+    const container = document.querySelector('.container');
+    if (!container) return alert('العنصر غير موجود');
+
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+        generatePDF(imageData);
+    }).catch(error => {
+        console.error('❌ خطأ أثناء إنشاء PDF:', error);
+    });
+}
+
+// 🟢 بيانات تسجيل الدخول
 const users = {
     "0504854223": "1234",
     "0506399549": "1234",
@@ -144,13 +115,13 @@ const users = {
     "0536183076": "1234"
 };
 
-// وظيفة تسجيل الدخول
+// 🟢 وظيفة تسجيل الدخول
 function login(event) {
     event.preventDefault(); // منع إرسال النموذج الافتراضي
 
     const phone = document.getElementById('phone').value.trim();
     const password = document.getElementById('password').value.trim();
-    const errorElement = document.getElementById('error'); // تأكد من وجود div بهذا الـ ID في index.html
+    const errorElement = document.getElementById('error'); 
 
     if (!phone || !password) {
         showError("يرجى تعبئة جميع الحقول.", errorElement);
@@ -160,8 +131,6 @@ function login(event) {
     if (users[phone] && users[phone] === password) {
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userPhone', phone);
-
-        // ✅ توجيه المستخدم إلى صفحة choose.html بعد نجاح تسجيل الدخول
         window.location.href = "choose.html";
         return false;
     } else {
@@ -170,7 +139,7 @@ function login(event) {
     }
 }
 
-// وظيفة عرض رسالة الخطأ
+// 🟢 وظيفة عرض رسالة الخطأ
 function showError(message, element) {
     if (element) {
         element.textContent = message;
@@ -179,6 +148,3 @@ function showError(message, element) {
         setTimeout(() => { element.style.display = "none"; }, 3000);
     }
 }
-
-
-
