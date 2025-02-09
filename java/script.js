@@ -46,7 +46,6 @@ function displayImage(event, id) {
         reader.readAsDataURL(file);
     }
 }
-
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
@@ -101,10 +100,20 @@ function downloadAsImage() {
 
     // تحويل التقرير إلى صورة باستخدام html2canvas
     html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+
+        // ✅ حفظ كصورة
         const link = document.createElement('a');
         link.download = 'report.png';
-        link.href = canvas.toDataURL('image/png');
+        link.href = imageData;
         link.click();
+
+        // ✅ حفظ كـ PDF
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210; // عرض الورقة A4 بالـ mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('report.pdf');
 
         // إعادة الأزرار وصندوق الشواهد لحالتها الطبيعية
         buttons.forEach(button => button.style.display = 'flex');
