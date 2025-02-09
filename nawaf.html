@@ -7,8 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تقرير</title>
-
-
     <style>
 body {
     font-family: Arial, sans-serif; /* أضف خطًا يدعم العربية إذا لزم الأمر */
@@ -242,17 +240,55 @@ body {
         }
 
     </style>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function toggleFileInput(id) {
+            const fileInput = document.getElementById(id);
+            if (fileInput) {
+                fileInput.click();
+            }
+        }
+
+        function displayImage(event, id) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.querySelector(`#${id} img`);
+                    if (img) {
+                        img.src = e.target.result;
+                        img.parentElement.classList.add('active');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+      }
+
+
+        function updateRegion() {
+            const regionInput = document.getElementById('regionInput');
+            if (regionInput) {
+                regionInput.placeholder = regionInput.value || 'أدخل منطقتك هنا';
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
 <div class="header">
-<div class="text">
-    <span>وزارة التربية والتعليم</span><br>
-    <span>الإدارة العامة للتعليم</span><br>
-    <span>مكتب التعليم بمنطقة</span>
-    <input type="text" id="regionInput" placeholder="أدخل منطقتك هنا" oninput="updateRegion()">
-</div>
+    <div class="text">
+        وزارة التربية والتعليم<br>
+        الإدارة العامة للتعليم<br>
+        مكتب التعليم بمنطقة 
+        <input 
+            type="text" 
+            id="regionInput" 
+            placeholder="أدخل منطقتك هنا" 
+            oninput="updateRegion()" 
+            style="border: none; border-bottom: 1px solid #fff; background: transparent; color: #fff; outline: none; font-size: 1em; width: 150px; text-align: center;">
+    </div>
     <img src="logo.png" alt="شعار وزارة التعليم" class="logo">
 </div>
 
@@ -343,8 +379,6 @@ body {
 </div>     
 
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script src="java/script.js"></script>
 </body>

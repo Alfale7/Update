@@ -158,7 +158,7 @@
 </p>
 <div class="login-container">
     <h2 style="font-size: 1.8rem; color: #003d5b; margin-bottom: 20px;">تسجيل الدخول</h2>
- <form onsubmit="return login(event)">
+    <form onsubmit="return login()" style="width: 100%;">
         <!-- حقل إدخال رقم الجوال -->
         <label for="phone" style="display: block; text-align: right; margin-bottom: 8px; color: #444; font-weight: bold; font-size: 1rem;">رقم الجوال:</label>
         <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الجوال" 
@@ -178,7 +178,40 @@
     </form>
 </div>
 
+<script>
+    // قائمة أرقام الجوالات وكلمات المرور
+const users = [
+    { phone: "0504854223", password: "1234" },
+    { phone: "0506399549", password: "1122" },
+    { phone: "0539337044", password: "1234" },
+    { phone: "0530490887", password: "1234" },
+    { phone: "0531415531", password: "1234" },
+    { phone: "0558176875", password: "1234" },
+    { phone: "0559357091", password: "1234" },
+    { phone: "0503393365", password: "1234" },
+    { phone: "0536183076", password: "1234" } // الرقم الجديد
+];
 
+
+    function login() {
+        // جلب البيانات المدخلة
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+
+        // البحث عن المستخدم
+        const user = users.find(user => user.phone === phone && user.password === password);
+
+        if (user) {
+            // نجاح تسجيل الدخول
+            window.location.href = "choose.html"; // توجيه إلى صفحة اختيار التصميم
+            return false;
+        } else {
+            // فشل تسجيل الدخول
+            alert("رقم الجوال أو كلمة المرور غير صحيحة!");
+            return false;
+        }
+    }
+</script>
 
 
 <!-- ربط ملف JavaScript -->

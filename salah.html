@@ -204,7 +204,31 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function toggleFileInput(id) {
+            const fileInput = document.getElementById(id);
+            if (fileInput) {
+                fileInput.click();
+            }
+        }
+
+        function displayImage(event, id) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.querySelector(`#${id} img`);
+                    if (img) {
+                        img.src = e.target.result;
+                        img.parentElement.classList.add('active');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
     
+    </script>
 </head>
 <body>
     <div class="container">
@@ -301,7 +325,6 @@
         الرجوع إلى النماذج
     </button>
 </div>
-
 
 <script src="java/script.js"></script>
 
