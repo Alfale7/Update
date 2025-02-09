@@ -58,62 +58,60 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    // 🟢 تحويل الحقول النصية إلى نصوص ثابتة مع ضبط المحاذاة
+    // 🟢 استبدال المدخلات بنصوص ثابتة
     const inputs = container.querySelectorAll('input, textarea');
     const tempElements = [];
 
     inputs.forEach(input => {
-        const rect = input.getBoundingClientRect();
-        const computedStyle = window.getComputedStyle(input);
-
         const textElement = document.createElement('div');
         textElement.textContent = input.value || input.placeholder;
         textElement.style.cssText = `
-            width: ${rect.width}px;
-            height: ${rect.height}px;
-            font-size: ${computedStyle.fontSize};
-            font-family: ${computedStyle.fontFamily};
+            position: absolute;
+            width: ${input.offsetWidth}px;
+            height: ${input.offsetHeight}px;
+            font-size: ${window.getComputedStyle(input).fontSize};
+            font-family: ${window.getComputedStyle(input).fontFamily};
             color: black;
-            background-color: white;
+            text-align: right;
+            line-height: ${window.getComputedStyle(input).lineHeight};
             display: flex;
             align-items: center;
             justify-content: right;
-            border: 1px solid #ccc;
-            border-radius: 5px;
             padding: 5px;
-            position: absolute;
-            left: ${rect.left}px;
-            top: ${rect.top}px;
-            text-align: right; /* محاذاة النص لليمين */
-            direction: rtl; /* جعل الاتجاه من اليمين لليسار */
         `;
         textElement.className = 'temp-text';
+        textElement.style.right = `${input.getBoundingClientRect().right - container.getBoundingClientRect().right}px`;
+        textElement.style.top = `${input.getBoundingClientRect().top - container.getBoundingClientRect().top}px`;
+
         container.appendChild(textElement);
         tempElements.push(textElement);
         input.style.visibility = 'hidden';
     });
 
-    // 🟢 تحويل التقرير إلى صورة باستخدام html2canvas
+    // 🟢 التقاط الصورة باستخدام html2canvas
     html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+
+        // ✅ تحميل الصورة
         const link = document.createElement('a');
         link.download = 'report.png';
-        link.href = canvas.toDataURL('image/png');
+        link.href = imageData;
         link.click();
 
-        // 🟢 إعادة الأزرار والحقول النصية لحالتها الطبيعية
-        buttons.forEach(button => button.style.display = 'flex');
+        // 🟢 إعادة الأزرار لوضعها الطبيعي
+        buttons.forEach(button => button.style.display = 'block');
         inputs.forEach(input => input.style.visibility = 'visible');
         tempElements.forEach(el => el.remove());
     }).catch(error => {
         console.error('❌ خطأ أثناء إنشاء الصورة:', error);
-        buttons.forEach(button => button.style.display = 'flex');
+        buttons.forEach(button => button.style.display = 'block');
     });
 }
 
 
-
-
 // 🟢 وظيفة تحميل التقرير كـ PDF مع ضبط الأبعاد تلقائيًا
+
+
 function downloadAsPDF() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
