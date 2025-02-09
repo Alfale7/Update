@@ -54,19 +54,27 @@ function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
 
-    // 🟢 إخفاء الأزرار أثناء التحميل
+    // 🟢 إخفاء جميع الأزرار أثناء التحميل
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    // 🟢 استبدال الحقول النصية بعناصر نص ثابتة
+    // 🟢 تثبيت حجم صندوق الشواهد لمنع التمدد أثناء التحميل
+    const shahidContainer = document.querySelector('.shahid-container');
+    if (shahidContainer) {
+        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
+        shahidContainer.style.overflow = 'hidden';
+    }
+
+    // 🟢 تحويل المدخلات إلى نصوص ثابتة داخل الحقول مباشرةً بمحاذاة اليمين
     const inputs = container.querySelectorAll('input, textarea');
     const tempElements = [];
 
     inputs.forEach(input => {
         const textElement = document.createElement('div');
         textElement.textContent = input.value || input.placeholder;
-        const computedStyle = window.getComputedStyle(input);
 
+        // ضبط تنسيق النص ليكون مطابقًا للحقل الأصلي
+        const computedStyle = window.getComputedStyle(input);
         Object.assign(textElement.style, {
             position: 'absolute',
             width: `${input.offsetWidth}px`,
@@ -74,7 +82,7 @@ function downloadAsImage() {
             fontSize: computedStyle.fontSize,
             fontFamily: computedStyle.fontFamily,
             color: '#000',
-            textAlign: 'right',
+            textAlign: 'right', // محاذاة النص إلى اليمين
             lineHeight: computedStyle.lineHeight,
             backgroundColor: '#fff',
             display: 'flex',
@@ -83,14 +91,18 @@ function downloadAsImage() {
             padding: '5px',
             border: computedStyle.border,
             borderRadius: computedStyle.borderRadius,
+            boxSizing: 'border-box',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
         });
 
-        // ضبط موضع النص ليكون مطابقًا لمكان الحقل
+        // ضبط موقع النص داخل الحقل
         const rect = input.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
-        textElement.style.right = `${containerRect.right - rect.right}px`;
+        textElement.style.left = `${rect.left - containerRect.left}px`;
         textElement.style.top = `${rect.top - containerRect.top}px`;
 
+        // استبدال الحقل بالنص المؤقت
         textElement.className = 'temp-text';
         container.appendChild(textElement);
         tempElements.push(textElement);
@@ -111,6 +123,11 @@ function downloadAsImage() {
 
         // 🟢 إعادة الأزرار والحقول لحالتها الطبيعية
         buttons.forEach(button => button.style.display = 'block');
+        if (shahidContainer) {
+            shahidContainer.style.maxHeight = '';
+            shahidContainer.style.overflow = '';
+        }
+
         inputs.forEach(input => input.style.visibility = 'visible');
         tempElements.forEach(el => el.remove());
     }).catch(error => {
@@ -118,7 +135,6 @@ function downloadAsImage() {
         buttons.forEach(button => button.style.display = 'block');
     });
 }
-
 
 // 🟢 وظيفة تحميل التقرير كـ PDF مع ضبط الأبعاد تلقائيًا
 
