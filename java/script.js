@@ -46,56 +46,67 @@ function displayImage(event, id) {
         reader.readAsDataURL(file);
     }
 }
-
 // 🟢 وظيفة تحميل التقرير كصورة
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) return alert('العنصر غير موجود');
 
-    // إخفاء الأزرار
-    const buttons = document.querySelectorAll('.buttons-container, .download, .exit-buttons');
+    // إخفاء جميع الأزرار أثناء التحميل
+    const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    // تحويل الحقول النصية لعناصر ثابتة بمحاذاة اليمين
+    // تحويل الحقول النصية إلى عناصر نصية ثابتة بمحاذاة اليمين
     const inputs = container.querySelectorAll('input, textarea');
+    const tempElements = []; // قائمة لحفظ العناصر المؤقتة
+
     inputs.forEach(input => {
-        const textSpan = document.createElement('span');
-        Object.assign(textSpan.style, {
+        const rect = input.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(input);
+
+        const textElement = document.createElement('div');
+        Object.assign(textElement.style, {
             position: 'absolute',
-            left: `${input.offsetLeft}px`,
-            top: `${input.offsetTop}px`,
-            width: `${input.offsetWidth}px`,
-            height: `${input.offsetHeight}px`,
-            fontSize: window.getComputedStyle(input).fontSize,
-            fontFamily: window.getComputedStyle(input).fontFamily,
-            lineHeight: window.getComputedStyle(input).lineHeight,
-            textAlign: 'right',
+            right: `${containerRect.right - rect.right}px`, // محاذاة اليمين
+            top: `${rect.top - containerRect.top}px`,
+            width: `${rect.width}px`,
+            height: `${rect.height}px`,
+            fontSize: computedStyle.fontSize,
+            fontFamily: computedStyle.fontFamily,
             color: '#000',
+            textAlign: 'right',
+            lineHeight: computedStyle.lineHeight,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'right',
+            padding: '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
         });
-        textSpan.textContent = input.value;
-        textSpan.className = 'temp-span';
-        container.appendChild(textSpan);
+
+        textElement.textContent = input.value || input.placeholder;
+        textElement.className = 'temp-text';
+        container.appendChild(textElement);
+        tempElements.push(textElement);
+
+        input.style.visibility = 'hidden';
     });
 
-    // إخفاء الحقول أثناء التحميل
-    inputs.forEach(input => input.style.visibility = 'hidden');
-
-    // تحويل إلى صورة
-    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then((canvas) => {
+    // تحويل التقرير إلى صورة باستخدام html2canvas
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'report.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
 
-        // إعادة الأزرار والحقول لحالتها الطبيعية
+        // استعادة جميع العناصر بعد التحميل
         buttons.forEach(button => button.style.display = 'flex');
         inputs.forEach(input => input.style.visibility = 'visible');
-        document.querySelectorAll('.temp-span').forEach(span => span.remove());
+        tempElements.forEach(el => el.remove());
     }).catch(error => {
-        console.error('خطأ أثناء إنشاء الصورة:', error);
+        console.error('❌ خطأ أثناء إنشاء الصورة:', error);
+        
+        // إعادة الأزرار حتى لو حدث خطأ
         buttons.forEach(button => button.style.display = 'flex');
     });
 }
