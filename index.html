@@ -15,116 +15,6 @@
 
 <link rel="stylesheet" href="Css/style.css">
 
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: #f4f9ff;
-        }
-        header {
-            background-color: #003d5b;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        .container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-        .intro {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .intro h2 {
-            color: #003d5b;
-            font-size: 1.8rem;
-        }
-        .intro p {
-            font-size: 1.2rem;
-            color: #444;
-        }
-        .intro .button {
-            background-color: orange;
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .intro .button:hover {
-            background-color: #ff7700;
-        }
-        .images {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .images img {
-            max-width: 250px;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .images img:hover {
-            transform: scale(1.05);
-        }
-        .login-container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 40px auto;
-            text-align: center;
-        }
-        .login-container h2 {
-            margin-bottom: 20px;
-            color: #003d5b;
-        }
-        .login-container label {
-            display: block;
-            text-align: right;
-            margin-bottom: 10px;
-            color: #333;
-            font-weight: bold;
-        }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .login-container .button {
-            background-color: #003d5b;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .login-container .button:hover {
-            background-color: #005580;
-        }
-        footer {
-            background-color: #003d5b;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -158,7 +48,7 @@
 </p>
 <div class="login-container">
     <h2 style="font-size: 1.8rem; color: #003d5b; margin-bottom: 20px;">تسجيل الدخول</h2>
-    <form onsubmit="return login()" style="width: 100%;">
+<form onsubmit="return login(event)">
         <!-- حقل إدخال رقم الجوال -->
         <label for="phone" style="display: block; text-align: right; margin-bottom: 8px; color: #444; font-weight: bold; font-size: 1rem;">رقم الجوال:</label>
         <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الجوال" 
@@ -178,41 +68,7 @@
     </form>
 </div>
 
-<script>
-    // قائمة أرقام الجوالات وكلمات المرور
-const users = [
-    { phone: "0504854223", password: "1234" },
-    { phone: "0506399549", password: "1122" },
-    { phone: "0539337044", password: "1234" },
-    { phone: "0530490887", password: "1234" },
-    { phone: "0531415531", password: "1234" },
-    { phone: "0558176875", password: "1234" },
-    { phone: "0559357091", password: "1234" },
-    { phone: "0503393365", password: "1234" },
-    { phone: "0536183076", password: "1234" } // الرقم الجديد
-];
-
-
-    function login() {
-        // جلب البيانات المدخلة
-        const phone = document.getElementById('phone').value;
-        const password = document.getElementById('password').value;
-
-        // البحث عن المستخدم
-        const user = users.find(user => user.phone === phone && user.password === password);
-
-        if (user) {
-            // نجاح تسجيل الدخول
-            window.location.href = "choose.html"; // توجيه إلى صفحة اختيار التصميم
-            return false;
-        } else {
-            // فشل تسجيل الدخول
-            alert("رقم الجوال أو كلمة المرور غير صحيحة!");
-            return false;
-        }
-    }
-</script>
-
+<div id="error" style="color: red; display: none; margin-top: 10px;"></div>
 
 <!-- ربط ملف JavaScript -->
 <script src="java/script.js"></script>
