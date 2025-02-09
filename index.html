@@ -13,7 +13,189 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_AR">
 
-<link rel="stylesheet" href="Css/style.css">
+
+
+<style>
+/* 🌟 ملف index.css - تنسيق 
+      
+/* 🔹 تنسيق عام للصفحة */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f9ff;
+}
+
+/* 🔹 تنسيق الهيدر */
+header {
+    background-color: #003d5b;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* 🔹 الحاوية الرئيسية */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* 🔹 تنسيق المقدمة */
+.intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.intro h2 {
+    color: #003d5b;
+    font-size: 1.8rem;
+}
+
+.intro p {
+    font-size: 1.2rem;
+    color: #444;
+}
+
+/* 🔹 زر الدعوة */
+.intro .button {
+    background-color: orange;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.intro .button:hover {
+    background-color: #ff7700;
+}
+
+/* 🔹 تنسيق الصور */
+.images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.images img {
+    max-width: 250px;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.images img:hover {
+    transform: scale(1.05);
+}
+
+/* 🔹 صندوق تسجيل الدخول */
+.login-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #003d5b;
+}
+
+/* 🔹 تنسيق الحقول */
+.login-container label {
+    display: block;
+    text-align: right;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* 🔹 زر تسجيل الدخول */
+.login-container .button {
+    background-color: #003d5b;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-container .button:hover {
+    background-color: #005580;
+}
+
+/* 🔹 تنسيق الفوتر */
+footer {
+    background-color: #003d5b;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* 🔹 تحسين العرض على الجوال */
+@media (max-width: 768px) {
+    .intro h2 {
+        font-size: 1.5rem;
+    }
+
+    .intro p {
+        font-size: 1rem;
+    }
+
+    .intro .button {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+
+    .images img {
+        max-width: 180px;
+    }
+
+    .login-container {
+        padding: 25px;
+        max-width: 90%;
+    }
+
+    .login-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .login-container input {
+        font-size: 0.9rem;
+    }
+
+    .login-container .button {
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+}
+</style>
 
 </head>
 <body>
