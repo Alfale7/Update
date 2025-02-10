@@ -55,48 +55,31 @@ function downloadAsImage() {
         return;
     }
 
-// 🟢 إخفاء جميع الأزرار أثناء التصوير
-const buttons = document.querySelectorAll('.buttons-container, .download, .exit-buttons, button');
-buttons.forEach(button => button.style.visibility = 'hidden');
+    // 🟢 إخفاء جميع الأزرار أثناء التصوير
+    const buttons = document.querySelectorAll('.buttons-container, .download, .exit-buttons, button');
+    buttons.forEach(button => button.style.visibility = 'hidden');
 
-const inputs = container.querySelectorAll('input, textarea');
-const tempElements = [];
+    const inputs = container.querySelectorAll('input, textarea');
+    const tempElements = [];
 
-inputs.forEach(input => {
-    const rect = input.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-    const computedStyle = window.getComputedStyle(input);
+    inputs.forEach(input => {
+        const rect = input.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(input);
 
-    const textElement = document.createElement('div');
-    textElement.style.position = 'absolute';
-    textElement.style.left = `${rect.left - containerRect.left}px`;
-    textElement.style.top = `${rect.top - containerRect.top}px`;
-    textElement.style.width = `${rect.width}px`;
-    textElement.style.height = `${rect.height}px`;
-    textElement.style.fontSize = computedStyle.fontSize;
-    textElement.style.fontFamily = computedStyle.fontFamily;
-    textElement.style.color = computedStyle.color;
-    textElement.style.textAlign = 'right';
-    textElement.style.direction = 'rtl';
-    textElement.style.lineHeight = computedStyle.lineHeight;
-    textElement.style.padding = '5px';
-
-    // 🟢 ضبط اسم المنطقة داخل الهيدر بعد التحميل
-    textElement.textContent = input.value || input.placeholder;
-    if (input.id === 'regionInput') {
-        textElement.style.left = `${rect.left - containerRect.left - 10}px`; // تحريك قليلاً لليسار
-        textElement.style.top = `${rect.top - containerRect.top + 5}px`;  // ضبط التمركز
-        textElement.style.color = 'black'; // جعله بنفس لون النص في الهيدر
-        textElement.style.fontSize = '18px'; // ضبط الحجم ليتناسب مع باقي النصوص
-        textElement.style.fontWeight = 'bold'; // جعله واضحًا أكثر
-    }
-
-    textElement.className = 'temp-element';
-    container.appendChild(textElement);
-    tempElements.push(textElement);
-
-    input.style.visibility = 'hidden';
-});
+        const textElement = document.createElement('div');
+        textElement.style.position = 'absolute';
+        textElement.style.left = `${rect.left - containerRect.left}px`;
+        textElement.style.top = `${rect.top - containerRect.top}px`;
+        textElement.style.width = `${rect.width}px`;
+        textElement.style.height = `${rect.height}px`;
+        textElement.style.fontSize = computedStyle.fontSize;
+        textElement.style.fontFamily = computedStyle.fontFamily;
+        textElement.style.color = computedStyle.color;
+        textElement.style.textAlign = 'right';
+        textElement.style.direction = 'rtl';
+        textElement.style.lineHeight = computedStyle.lineHeight;
+        textElement.style.padding = '5px';
 
         // ✅ تحسين تنسيق النص ليكون واضحًا بعد التحميل
         textElement.style.display = 'flex';
