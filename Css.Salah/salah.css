@@ -50,7 +50,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.fields {
+..fields {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -66,27 +66,32 @@ body {
     margin-bottom: 5px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     color: #103d5e;
+    font-size: 16px;
 }
 
+/* 🔹 ضبط حجم المدخلات ليكون مثل ملف Nawaf */
 .field input, .field textarea {
     width: 100%;
-    padding: 6px;
+    padding: 10px; /* زيادة التباعد الداخلي */
     border: 1px solid #46b39d;
     border-radius: 5px;
-    font-size: 0.85em;
+    font-size: 16px; /* تكبير النص */
     transition: border-color 0.3s, box-shadow 0.3s;
     box-sizing: border-box;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 40px; /* ✅ توحيد ارتفاع الحقول مع Nawaf */
+}
+
+/* 🔹 ضبط ارتفاع الحقول النصية */
+.field textarea {
+    resize: none;
+    height: 80px; /* ✅ نفس ارتفاع المربعات النصية في Nawaf */
 }
 
 .field input:focus, .field textarea:focus {
     border-color: #103d5e;
     box-shadow: 0 0 5px rgba(16, 61, 94, 0.5);
     outline: none;
-}
-
-.field textarea {
-    resize: none;
 }
 
 .shahid-section {
