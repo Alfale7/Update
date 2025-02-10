@@ -47,9 +47,7 @@ function displayImage(event, id) {
     }
 }
 
-
-
-
+// 🟢 وظيفة تحميل التقرير كصورة
 function downloadAsImage() {
     const container = document.querySelector('.container');
     if (!container) {
@@ -134,64 +132,6 @@ function downloadAsImage() {
     }).catch(error => {
         console.error('Error generating image:', error);
         buttons.forEach(button => button.style.visibility = 'visible');
-    });
-}
-
-
-// 🟢 وظيفة تحميل التقرير كـ PDF مع ضبط الأبعاد تلقائيًا
-
-function downloadAsPDF() {
-    const container = document.querySelector('.container');
-    if (!container) return alert('العنصر غير موجود');
-
-    // 🟢 استبدال المدخلات بنصوص ثابتة قبل التحويل
-    const inputs = container.querySelectorAll('input, textarea');
-    const tempElements = [];
-
-    inputs.forEach(input => {
-        const textElement = document.createElement('div');
-        textElement.textContent = input.value || input.placeholder;
-        textElement.style.cssText = `
-            position: absolute;
-            width: ${input.offsetWidth}px;
-            height: ${input.offsetHeight}px;
-            font-size: ${window.getComputedStyle(input).fontSize};
-            font-family: ${window.getComputedStyle(input).fontFamily};
-            color: black;
-            text-align: right;
-            line-height: ${window.getComputedStyle(input).lineHeight};
-            display: flex;
-            align-items: center;
-            justify-content: right;
-            padding: 5px;
-        `;
-        textElement.className = 'temp-text';
-        textElement.style.right = `${input.getBoundingClientRect().right - container.getBoundingClientRect().right}px`;
-        textElement.style.top = `${input.getBoundingClientRect().top - container.getBoundingClientRect().top}px`;
-
-        container.appendChild(textElement);
-        tempElements.push(textElement);
-        input.style.visibility = 'hidden';
-    });
-
-    // 🟢 التقاط الصورة وتحويلها إلى PDF
-    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
-
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-
-        const imgWidth = 210; // عرض الورقة A4 بالـ mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width; // الحفاظ على نسبة الأبعاد
-
-        pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('report.pdf');
-
-        // 🟢 إعادة الأزرار والحقول إلى وضعها الطبيعي
-        inputs.forEach(input => input.style.visibility = 'visible');
-        tempElements.forEach(el => el.remove());
-    }).catch(error => {
-        console.error('❌ خطأ أثناء إنشاء PDF:', error);
     });
 }
 
