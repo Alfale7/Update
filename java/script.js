@@ -58,51 +58,41 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
     buttons.forEach(button => button.style.display = 'none');
 
-    // 🟢 تثبيت حجم صندوق الشواهد لمنع التمدد أثناء التحميل
-    const shahidContainer = document.querySelector('.shahid-container');
-    if (shahidContainer) {
-        shahidContainer.style.maxHeight = `${shahidContainer.offsetHeight}px`;
-        shahidContainer.style.overflow = 'hidden';
-    }
+    // 🟢 تثبيت حجم التقرير لمنع تغييره أثناء التحميل
+    container.style.width = `${container.offsetWidth}px`;
+    container.style.height = `${container.offsetHeight}px`;
 
-    // 🟢 تحويل المدخلات إلى نصوص ثابتة داخل الحقول مباشرةً بمحاذاة اليمين
+    // 🟢 تحويل الحقول النصية إلى `div` يحمل نفس القيم
     const inputs = container.querySelectorAll('input, textarea');
+    const labels = container.querySelectorAll('label'); // جلب جميع العناوين
     const tempElements = [];
 
     inputs.forEach(input => {
-        const textElement = document.createElement('div');
-        textElement.textContent = input.value || input.placeholder;
-
-        // ضبط تنسيق النص ليكون مطابقًا للحقل الأصلي
+        const rect = input.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
         const computedStyle = window.getComputedStyle(input);
+
+        const textElement = document.createElement('div');
         Object.assign(textElement.style, {
             position: 'absolute',
-            width: `${input.offsetWidth}px`,
-            height: `${input.offsetHeight}px`,
+            right: `${containerRect.right - rect.right}px`, // محاذاة اليمين
+            top: `${rect.top - containerRect.top}px`,
+            width: `${rect.width}px`,
+            height: `${rect.height}px`,
             fontSize: computedStyle.fontSize,
             fontFamily: computedStyle.fontFamily,
             color: '#000',
-            textAlign: 'right', // محاذاة النص إلى اليمين
+            textAlign: 'right',
             lineHeight: computedStyle.lineHeight,
-            backgroundColor: '#fff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'right',
             padding: '5px',
-            border: computedStyle.border,
-            borderRadius: computedStyle.borderRadius,
-            boxSizing: 'border-box',
+            whiteSpace: 'nowrap',
             overflow: 'hidden',
-            whiteSpace: 'nowrap'
         });
 
-        // ضبط موقع النص داخل الحقل
-        const rect = input.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        textElement.style.left = `${rect.left - containerRect.left}px`;
-        textElement.style.top = `${rect.top - containerRect.top}px`;
-
-        // استبدال الحقل بالنص المؤقت
+        textElement.textContent = input.value || input.placeholder;
         textElement.className = 'temp-text';
         container.appendChild(textElement);
         tempElements.push(textElement);
@@ -110,29 +100,32 @@ function downloadAsImage() {
         input.style.visibility = 'hidden';
     });
 
-    // 🟢 استخدام html2canvas لتحويل التقرير إلى صورة
-    html2canvas(container, {
-        scale: 3, 
-        useCORS: true, 
-        backgroundColor: '#ffffff'
-    }).then(canvas => {
+    // 🟢 جعل جميع `label` مرئية بوضوح أثناء التحميل
+    labels.forEach(label => {
+        label.style.display = 'block';
+        label.style.color = '#000'; // تأكد أن اللون مرئي
+        label.style.fontWeight = 'bold'; // اجعل النص بارز
+    });
+
+    // 🟢 تحويل التقرير إلى صورة باستخدام html2canvas
+    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+
+        // ✅ تحميل الصورة
         const link = document.createElement('a');
         link.download = 'report.png';
-        link.href = canvas.toDataURL('image/png');
+        link.href = imageData;
         link.click();
 
-        // 🟢 إعادة الأزرار والحقول لحالتها الطبيعية
-        buttons.forEach(button => button.style.display = 'block');
-        if (shahidContainer) {
-            shahidContainer.style.maxHeight = '';
-            shahidContainer.style.overflow = '';
-        }
-
+        // ✅ إعادة الحقول والأزرار إلى وضعها الطبيعي
+        buttons.forEach(button => button.style.display = 'flex');
         inputs.forEach(input => input.style.visibility = 'visible');
+        labels.forEach(label => label.style.color = ''); // إعادة لون العناوين
         tempElements.forEach(el => el.remove());
+
     }).catch(error => {
         console.error('❌ خطأ أثناء إنشاء الصورة:', error);
-        buttons.forEach(button => button.style.display = 'block');
+        buttons.forEach(button => button.style.display = 'flex');
     });
 }
 
