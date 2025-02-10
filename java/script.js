@@ -88,7 +88,7 @@ function downloadAsImage() {
 
         // ✅ ضبط تنسيق النص ليكون واضحًا ومتمركزًا في الحقل
         textElement.style.display = 'flex';
-        textElement.style.alignItems = 'center';
+        textElement.style.alignItems = 'right';
         textElement.style.justifyContent = 'center';
         textElement.style.fontWeight = 'bold';
         textElement.style.whiteSpace = 'nowrap';
