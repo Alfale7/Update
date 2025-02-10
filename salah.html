@@ -1,55 +1,62 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
-
-<link rel="stylesheet" href="Css.Salah/salah.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقرير</title>
-   
+    <title>تقرير صلاح</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- ربط ملف CSS -->
+    <link rel="stylesheet" href="Css.Salah/salah.css">
 
+    <!-- مكتبة html2canvas لتحميل التقرير كصورة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
-     <div class="header">
-    <div class="text">
-        وزارة التربية والتعليم<br>
-        الإدارة العامة للتعليم<br>
-        مكتب التعليم بمنطقة <input type="text" placeholder="اسم المنطقة" class="header-input">
-    </div>
-    <img src="logo.png" alt="شعار وزارة التعليم" class="logo">
-</div>
+        <div class="header">
+            <div class="text">
+                وزارة التربية والتعليم<br>
+                الإدارة العامة للتعليم<br>
+                مكتب التعليم بمنطقة 
+                <input 
+                    type="text" 
+                    id="regionInput" 
+                    placeholder="أدخل منطقتك هنا" 
+                    oninput="updateRegion()">
+            </div>
+            <img src="logo.png" alt="شعار وزارة التعليم" class="logo">
+        </div>
 
-        <div class="fields">
+        <!-- 🟢 الحقول -->
+       <div class="fields">
             <div class="field">
                 <label for="name">المنفذ/ة:</label>
-                <input type="text" id="name" placeholder=>
+                <input type="text" id="name" placeholder="اسم المنفذ">
             </div>
 
             <div class="field">
                 <label for="location">مكان التنفيذ:</label>
-                <input type="text" id="location" placeholder=>
+                <input type="text" id="location" placeholder="مكان التنفيذ">
             </div>
 
              <div class="field">
-                <label for="location">وصف البرنامج:</label>
-                <input type="text" id="location" placeholder=>
+                <label for="program_description">وصف البرنامج:</label>
+                <input type="text" id="program_description" placeholder="أكتب الوصف">
             </div>
 
-
-      <div class="field">
-                <label for="beneficiaries">الفئة المستهدفه:</label>
-                <input type="text" id="beneficiaries" placeholder=>
+            <div class="field">
+                <label for="beneficiaries">المستفيدون:</label>
+                <input type="text" id="beneficiaries" placeholder="عدد المستفيدين">
             </div>
 
-  <div class="field">
-                <label for="beneficiaries">اليوم</label>
-                <input type="text" id="beneficiaries" placeholder=>
+            <div class="field">
+                <label for="target_group">الفئة المستهدفة:</label>
+                <input type="text" id="target_group" placeholder="الفئة المستهدفة">
+            </div>
+
+            <div class="field">
+                <label for="day">اليوم:</label>
+                <input type="text" id="day" placeholder="ادخل اليوم">
             </div>
 
             <div class="field">
@@ -59,15 +66,16 @@
 
             <div class="field">
                 <label for="manager">مدير/ة المدرسة:</label>
-                <input type="text" id="manager" placeholder=>
+                <input type="text" id="manager" placeholder="اسم مدير المدرسة">
             </div>
 
             <div class="field">
                 <label for="objectives">الأهداف:</label>
-                <textarea id="objectives" rows="4" placeholder=></textarea>
+                <textarea id="objectives" rows="4" placeholder="اكتب الأهداف هنا..."></textarea>
             </div>
         </div>
 
+        <!-- 🟢 قسم الشواهد -->
         <div class="shahid-section">
             <h3>الشواهد ⤵️</h3>
             <div class="shahid-grid">
@@ -90,24 +98,23 @@
             </div>
         </div>
 
-    <div class="buttons">
-    <button class="download" onclick="downloadAsImage()">تحميل التقرير كصورة</button>
-    <button class="download-pdf" onclick="downloadAsPDF()">تحميل التقرير كـ PDF</button>
-</div>
+        <!-- 🟢 الأزرار -->
+        <div class="buttons">
+            <button class="download" onclick="downloadAsImage()">تحميل التقرير كصورة</button>
+        </div>
 
-<div style="display: flex; justify-content: space-evenly; align-items: center; margin-top: 20px;">
-    <!-- زر تسجيل الخروج في أقصى اليمين -->
-    <button onclick="location.href='index.html'" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-        تسجيل الخروج
-    </button>
+        <div class="navigation-buttons">
+            <!-- زر الرجوع إلى النماذج -->
+            <button onclick="location.href='choose.html'" class="back-button">
+                الرجوع إلى النماذج
+            </button>
 
-    <!-- زر الرجوع إلى النماذج في أقصى اليسار -->
-    <button onclick="location.href='choose.html'" style="background-color: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-        الرجوع إلى النماذج
-    </button>
-</div>
+            <!-- زر تسجيل الخروج -->
+            <button onclick="location.href='index.html'" class="logout-button">
+                تسجيل الخروج
+            </button>
+        </div>
 
-<script src="java/script.js"></script>
-
+    <script src="java/script.js"></script>
 </body>
 </html>
