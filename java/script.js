@@ -52,19 +52,30 @@ function displayImage(event, id) {
 
 function downloadAsImage() {
     const container = document.querySelector('.container');
-    if (!container) return alert('العنصر غير موجود');
+    if (!container) {
+        alert('Container not found!');
+        return;
+    }
 
-    // 🟢 إخفاء جميع الأزرار أثناء التحميل
-    const buttons = document.querySelectorAll('button, .buttons-container, .download, .exit-buttons');
-    buttons.forEach(button => button.style.display = 'none');
+    // 🟢 إخفاء جميع الأزرار بطريقة لا تؤثر على التصميم
+    const buttons = document.querySelectorAll('.buttons-container, .download, .exit-buttons, button');
+    buttons.forEach(button => button.style.visibility = 'hidden');
 
-    // 🟢 تثبيت حجم التقرير لمنع تغييره أثناء التحميل
-    container.style.width = `${container.offsetWidth}px`;
-    container.style.height = `${container.offsetHeight}px`;
+    // 🟢 إصلاح تمدد الشواهد عن طريق حفظ حجمها الأصلي
+    const shahidElements = document.querySelectorAll('.shahid');
+    const shahidSizes = [];
+    
+    shahidElements.forEach((shahid, index) => {
+        shahidSizes[index] = {
+            width: shahid.offsetWidth + "px",
+            height: shahid.offsetHeight + "px"
+        };
+        shahid.style.width = shahidSizes[index].width;
+        shahid.style.height = shahidSizes[index].height;
+        shahid.style.overflow = 'hidden';
+    });
 
-    // 🟢 تحويل الحقول النصية إلى `div` يحمل نفس القيم
     const inputs = container.querySelectorAll('input, textarea');
-    const labels = container.querySelectorAll('label'); // جلب جميع العناوين
     const tempElements = [];
 
     inputs.forEach(input => {
@@ -73,61 +84,59 @@ function downloadAsImage() {
         const computedStyle = window.getComputedStyle(input);
 
         const textElement = document.createElement('div');
-        Object.assign(textElement.style, {
-            position: 'absolute',
-            right: `${containerRect.right - rect.right}px`, // محاذاة اليمين
-            top: `${rect.top - containerRect.top}px`,
-            width: `${rect.width}px`,
-            height: `${rect.height}px`,
-            fontSize: computedStyle.fontSize,
-            fontFamily: computedStyle.fontFamily,
-            color: '#000',
-            textAlign: 'right',
-            lineHeight: computedStyle.lineHeight,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'right',
-            padding: '5px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-        });
-
+        textElement.style.position = 'absolute';
+        textElement.style.left = `${rect.left - containerRect.left}px`;
+        textElement.style.top = `${rect.top - containerRect.top}px`;
+        textElement.style.width = `${rect.width}px`;
+        textElement.style.height = `${rect.height}px`;
+        textElement.style.fontSize = computedStyle.fontSize;
+        textElement.style.fontFamily = computedStyle.fontFamily;
+        textElement.style.color = computedStyle.color;
+        textElement.style.textAlign = 'right';
+        textElement.style.direction = 'rtl';
+        textElement.style.lineHeight = computedStyle.lineHeight;
+        textElement.style.display = 'flex';
+        textElement.style.alignItems = 'center';
+        textElement.style.padding = '5px';
+        textElement.style.whiteSpace = 'pre-wrap'; // منع التمدد غير الطبيعي
+        textElement.style.overflow = 'hidden';
         textElement.textContent = input.value || input.placeholder;
-        textElement.className = 'temp-text';
+        textElement.className = 'temp-element';
+
         container.appendChild(textElement);
         tempElements.push(textElement);
 
         input.style.visibility = 'hidden';
     });
 
-    // 🟢 جعل جميع `label` مرئية بوضوح أثناء التحميل
-    labels.forEach(label => {
-        label.style.display = 'block';
-        label.style.color = '#000'; // تأكد أن اللون مرئي
-        label.style.fontWeight = 'bold'; // اجعل النص بارز
-    });
-
-    // 🟢 تحويل التقرير إلى صورة باستخدام html2canvas
-    html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
-
-        // ✅ تحميل الصورة
+    html2canvas(container, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+    }).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'report.png';
-        link.href = imageData;
+        link.download = 'report.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
         link.click();
 
-        // ✅ إعادة الحقول والأزرار إلى وضعها الطبيعي
-        buttons.forEach(button => button.style.display = 'flex');
-        inputs.forEach(input => input.style.visibility = 'visible');
-        labels.forEach(label => label.style.color = ''); // إعادة لون العناوين
-        tempElements.forEach(el => el.remove());
+        // 🟢 إعادة الأزرار بعد التحميل
+        buttons.forEach(button => button.style.visibility = 'visible');
 
+        // 🟢 إعادة حجم الشواهد إلى الوضع الطبيعي
+        shahidElements.forEach((shahid, index) => {
+            shahid.style.width = '';
+            shahid.style.height = '';
+            shahid.style.overflow = '';
+        });
+
+        inputs.forEach(input => (input.style.visibility = 'visible'));
+        tempElements.forEach(el => el.remove());
     }).catch(error => {
-        console.error('❌ خطأ أثناء إنشاء الصورة:', error);
-        buttons.forEach(button => button.style.display = 'flex');
+        console.error('Error generating image:', error);
+        buttons.forEach(button => button.style.visibility = 'visible');
     });
 }
+
 
 // 🟢 وظيفة تحميل التقرير كـ PDF مع ضبط الأبعاد تلقائيًا
 
