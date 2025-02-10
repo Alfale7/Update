@@ -62,44 +62,24 @@ function downloadAsImage() {
     const inputs = container.querySelectorAll('input, textarea');
     const tempElements = [];
 
-inputs.forEach(input => {
-    const rect = input.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-    const computedStyle = window.getComputedStyle(input);
+    inputs.forEach(input => {
+        const rect = input.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(input);
 
-    const textElement = document.createElement('div');
-    textElement.style.position = 'absolute';
-    textElement.style.left = `${rect.left - containerRect.left}px`;
-    textElement.style.top = `${rect.top - containerRect.top}px`;
-    textElement.style.width = `${rect.width}px`;
-    textElement.style.height = `${rect.height}px`;
-    textElement.style.fontSize = computedStyle.fontSize;
-    textElement.style.fontFamily = computedStyle.fontFamily;
-    textElement.style.color = computedStyle.color;
-    textElement.style.textAlign = 'right';
-    textElement.style.direction = 'rtl';
-    textElement.style.lineHeight = computedStyle.lineHeight;
-    textElement.style.padding = '5px';
-
-    // ✅ **التأكد أن التعديل يطبق فقط على اسم المنطقة**
-    if (input.id === 'regionInput') {
-        textElement.style.left = `${rect.left - containerRect.left - 10}px`; // تحريك لليسار قليلاً
-        textElement.style.top = `${rect.top - containerRect.top + 5}px`;  // ضبط الموضع
-        textElement.style.color = 'black'; // تطابق مع لون النص
-        textElement.style.fontSize = '18px'; // ضبط الحجم
-        textElement.style.fontWeight = 'bold'; // جعل النص أوضح
-    }
-
-    textElement.textContent = input.value || input.placeholder;
-    textElement.className = 'temp-element';
-    container.appendChild(textElement);
-    tempElements.push(textElement);
-
-    // ✅ **إخفاء الإدخال فقط إن لم يكن خاصًا بتسجيل الدخول**
-    if (input.id !== 'phone' && input.id !== 'password') {
-        input.style.visibility = 'hidden';
-    }
-});
+        const textElement = document.createElement('div');
+        textElement.style.position = 'absolute';
+        textElement.style.left = `${rect.left - containerRect.left}px`;
+        textElement.style.top = `${rect.top - containerRect.top}px`;
+        textElement.style.width = `${rect.width}px`;
+        textElement.style.height = `${rect.height}px`;
+        textElement.style.fontSize = computedStyle.fontSize;
+        textElement.style.fontFamily = computedStyle.fontFamily;
+        textElement.style.color = computedStyle.color;
+        textElement.style.textAlign = 'right';
+        textElement.style.direction = 'rtl';
+        textElement.style.lineHeight = computedStyle.lineHeight;
+        textElement.style.padding = '5px';
 
         // ✅ تحسين تنسيق النص ليكون واضحًا بعد التحميل
         textElement.style.display = 'flex';
