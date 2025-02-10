@@ -59,7 +59,20 @@ function downloadAsImage() {
     const buttons = document.querySelectorAll('.buttons-container, .download, .exit-buttons, button');
     buttons.forEach(button => button.style.visibility = 'hidden');
 
-    // 🟢 تحويل المدخلات إلى نصوص مرئية
+    // 🟢 إصلاح تمدد الشواهد عن طريق حفظ حجمها الأصلي
+    const shahidElements = document.querySelectorAll('.shahid');
+    const shahidSizes = [];
+    
+    shahidElements.forEach((shahid, index) => {
+        shahidSizes[index] = {
+            width: shahid.offsetWidth + "px",
+            height: shahid.offsetHeight + "px"
+        };
+        shahid.style.width = shahidSizes[index].width;
+        shahid.style.height = shahidSizes[index].height;
+        shahid.style.overflow = 'hidden';
+    });
+
     const inputs = container.querySelectorAll('input, textarea');
     const tempElements = [];
 
@@ -80,15 +93,10 @@ function downloadAsImage() {
         textElement.style.textAlign = 'right';
         textElement.style.direction = 'rtl';
         textElement.style.lineHeight = computedStyle.lineHeight;
-        textElement.style.padding = computedStyle.padding;
-        textElement.style.border = computedStyle.border;
-        textElement.style.backgroundColor = computedStyle.backgroundColor;
         textElement.style.display = 'flex';
         textElement.style.alignItems = 'center';
         textElement.style.padding = '5px';
-        textElement.style.fontWeight = 'bold';  // 🟢 تحسين وضوح الخط
-        textElement.style.letterSpacing = '0.5px';  // 🟢 تحسين التباعد بين الحروف
-        textElement.style.whiteSpace = 'pre-wrap'; // 🟢 منع التمدد غير الطبيعي
+        textElement.style.whiteSpace = 'pre-wrap'; // منع التمدد غير الطبيعي
         textElement.style.overflow = 'hidden';
         textElement.textContent = input.value || input.placeholder;
         textElement.className = 'temp-element';
@@ -98,29 +106,6 @@ function downloadAsImage() {
 
         input.style.visibility = 'hidden';
     });
-
-    // 🟢 تنفيذ html2canvas مع تحسين الجودة
-    html2canvas(container, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-    }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'report.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.95);
-        link.click();
-
-        // 🟢 إعادة الأزرار بعد التحميل
-        buttons.forEach(button => button.style.visibility = 'visible');
-
-        // 🟢 إعادة المدخلات
-        inputs.forEach(input => (input.style.visibility = 'visible'));
-        tempElements.forEach(el => el.remove());
-    }).catch(error => {
-        console.error('Error generating image:', error);
-        buttons.forEach(button => button.style.visibility = 'visible');
-    });
-}
 
     html2canvas(container, {
         scale: 3,
@@ -142,13 +127,63 @@ function downloadAsImage() {
             shahid.style.overflow = '';
         });
 
-        inputs.forEach(input => (input.style.visibility = 'visible'));
-        tempElements.forEach(el => el.remove());
-    }).catch(error => {
-        console.error('Error generating image:', error);
-        buttons.forEach(button => button.style.visibility = 'visible');
-    });
-}
+        inputs.forEach(input => {
+    const rect = input.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    const computedStyle = window.getComputedStyle(input);
+
+    const textElement = document.createElement('div');
+    textElement.style.position = 'absolute';
+    textElement.style.left = `${rect.left - containerRect.left}px`;
+    textElement.style.top = `${rect.top - containerRect.top}px`;
+    textElement.style.width = `${rect.width}px`;
+    textElement.style.height = `${rect.height}px`;
+    textElement.style.fontSize = computedStyle.fontSize;
+    textElement.style.fontFamily = computedStyle.fontFamily;
+    textElement.style.color = computedStyle.color;
+    textElement.style.textAlign = 'right'; // ✅ محاذاة النص لليمين
+    textElement.style.direction = 'rtl'; // ✅ يجعل الكتابة من اليمين لليسار
+    textElement.style.lineHeight = computedStyle.lineHeight;
+    textElement.style.padding = '5px';
+
+    // ✅ تحسين عرض النص داخل الحقول لمنع التداخل وجعله أكثر وضوحًا
+    textElement.style.display = 'flex';
+    textElement.style.alignItems = 'center';
+    textElement.style.justifyContent = 'flex-start'; // ✅ يجعل النص يبدأ من اليمين
+    textElement.style.fontWeight = 'bold'; // ✅ يجعل النص أكثر وضوحًا
+    textElement.style.whiteSpace = 'nowrap'; // ✅ يمنع التداخل والتمدد العشوائي
+    textElement.style.overflow = 'hidden'; // ✅ يمنع تمدد النصوص بشكل غير طبيعي
+
+    textElement.textContent = input.value || input.placeholder;
+    textElement.className = 'temp-element';
+
+    container.appendChild(textElement);
+    tempElements.push(textElement);
+
+    input.style.visibility = 'hidden';
+});
+
+html2canvas(container, {
+    scale: 3,
+    useCORS: true,
+    backgroundColor: '#ffffff'
+}).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'report.jpg';
+    link.href = canvas.toDataURL('image/jpeg', 0.95);
+    link.click();
+
+    // 🟢 إعادة الأزرار بعد التحميل
+    buttons.forEach(button => button.style.visibility = 'visible');
+
+    inputs.forEach(input => (input.style.visibility = 'visible'));
+    tempElements.forEach(el => el.remove());
+}).catch(error => {
+    console.error('Error generating image:', error);
+    buttons.forEach(button => button.style.visibility = 'visible');
+});
+
+
 
 // 🟢 بيانات تسجيل الدخول
 const users = {
