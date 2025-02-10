@@ -54,47 +54,41 @@ body {
 }
 
 /* 🔹 ملف nawaf - حقول الإدخال */
+
+/* 🔹 ملف nawaf - حقول الإدخال */
+
+fields {
+    direction: rtl; /* يجعل ترتيب الحقول من اليمين إلى اليسار */
+    text-align: right; /* يضمن أن النصوص تظهر بمحاذاة اليمين */
+}
+
 .fields {
     grid-column: span 2;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
+    gap: 20px;
 }
 
 .field label {
-    font-weight: normal;
     margin-bottom: 5px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     color: #103d5e;
+    font-size: 16px;
 }
 
 .field input, .field textarea {
-    font-family: Arial, sans-serif;
-    font-weight: normal;
+    text-align: right !important; /* محاذاة النص داخل الحقول إلى اليمين */
+    direction: rtl; /* ضمان اتجاه النص من اليمين إلى اليسار */
+    padding: 10px;
+    font-size: 16px;
     width: 100%;
-    padding: 6px;
+    height: 40px;
     border: 1px solid #46b39d;
-    border-radius: 5px;
-    font-size: 0.85em;
     box-sizing: border-box;
-    text-align: center;
-    overflow: hidden;
 }
 
 .field input:focus, .field textarea:focus {
     border-color: #103d5e;
-    box-shadow: 0 0 5px rgba(16, 61, 94, 0.5);
     outline: none;
-}
-
-.field textarea {
-    resize: none;
-    grid-column: span 2;
 }
 
 /* 🔹 ملف nawaf - قسم الشواهد */
