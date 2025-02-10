@@ -6,12 +6,10 @@
     <title>تقرير</title>
 
     <!-- ربط ملف CSS -->
-<link rel="stylesheet" href="Css.Nawaf/nawaf.css">
+    <link rel="stylesheet" href="Css.Nawaf/nawaf.css">
 
     <!-- مكتبة html2canvas لتحميل التقرير كصورة -->
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -30,7 +28,6 @@
         </div>
 
         <!-- 🟢 الحقول -->
-
        <div class="fields">
             <div class="field">
                 <label for="name">المنفذ/ة:</label>
@@ -43,8 +40,8 @@
             </div>
 
              <div class="field">
-                <label for="location">وصف البرنامج:</label>
-                <input type="text" id="location" placeholder="أكتب الوصف">
+                <label for="program_description">وصف البرنامج:</label>
+                <input type="text" id="program_description" placeholder="أكتب الوصف">
             </div>
 
             <div class="field">
@@ -52,14 +49,14 @@
                 <input type="text" id="beneficiaries" placeholder="عدد المستفيدين">
             </div>
 
-      <div class="field">
-                <label for="beneficiaries">الفئة المستهدفه:</label>
-                <input type="text" id="beneficiaries" placeholder="الفئه المستهدفه">
+            <div class="field">
+                <label for="target_group">الفئة المستهدفة:</label>
+                <input type="text" id="target_group" placeholder="الفئة المستهدفة">
             </div>
 
-  <div class="field">
-                <label for="beneficiaries">اليوم</label>
-                <input type="text" id="beneficiaries" placeholder="ادخل اليوم">
+            <div class="field">
+                <label for="day">اليوم:</label>
+                <input type="text" id="day" placeholder="ادخل اليوم">
             </div>
 
             <div class="field">
@@ -77,6 +74,7 @@
                 <textarea id="objectives" rows="4" placeholder="اكتب الأهداف هنا..."></textarea>
             </div>
         </div>
+
         <!-- 🟢 قسم الشواهد -->
         <div class="shahid-section">
             <h3>الشواهد ⤵️</h3>
@@ -101,22 +99,21 @@
         </div>
 
         <!-- 🟢 الأزرار -->
-<div class="buttons">
-    <button class="download" onclick="downloadAsImage()">تحميل التقرير كصورة</button>
-    <button class="download-pdf" onclick="downloadAsPDF()">تحميل التقرير كـ PDF</button>
-</div>
+        <div class="buttons">
+            <button class="download" onclick="downloadAsImage()">تحميل التقرير كصورة</button>
+        </div>
 
-    <div class="navigation-buttons">
-    <!-- زر الرجوع إلى النماذج -->
-    <button onclick="location.href='choose.html'" class="back-button">
-        الرجوع إلى النماذج
-    </button>
+        <div class="navigation-buttons">
+            <!-- زر الرجوع إلى النماذج -->
+            <button onclick="location.href='choose.html'" class="back-button">
+                الرجوع إلى النماذج
+            </button>
 
-    <!-- زر تسجيل الخروج -->
-    <button onclick="location.href='index.html'" class="logout-button">
-        تسجيل الخروج
-    </button>
-</div>
+            <!-- زر تسجيل الخروج -->
+            <button onclick="location.href='index.html'" class="logout-button">
+                تسجيل الخروج
+            </button>
+        </div>
 
     <script src="java/script.js"></script>
 </body>
