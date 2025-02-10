@@ -46,7 +46,6 @@ function displayImage(event, id) {
         reader.readAsDataURL(file);
     }
 }
-
 // 🟢 وظيفة تحميل التقرير كصورة
 function downloadAsImage() {
     const container = document.querySelector('.container');
@@ -67,12 +66,18 @@ function downloadAsImage() {
         const containerRect = container.getBoundingClientRect();
         const computedStyle = window.getComputedStyle(input);
 
+        // 🟢 إنشاء عنصر جديد ليحل محل النصوص في الحقول أثناء التصوير
         const textElement = document.createElement('div');
+        textElement.className = 'temp-element';
+
+        // ✅ تحديد موقع العنصر بناءً على موقع الحقل الفعلي
         textElement.style.position = 'absolute';
         textElement.style.left = `${rect.left - containerRect.left}px`;
         textElement.style.top = `${rect.top - containerRect.top}px`;
         textElement.style.width = `${rect.width}px`;
         textElement.style.height = `${rect.height}px`;
+
+        // ✅ تطبيق نفس خصائص التنسيق
         textElement.style.fontSize = computedStyle.fontSize;
         textElement.style.fontFamily = computedStyle.fontFamily;
         textElement.style.color = computedStyle.color;
@@ -81,20 +86,28 @@ function downloadAsImage() {
         textElement.style.lineHeight = computedStyle.lineHeight;
         textElement.style.padding = '5px';
 
-        // ✅ تحسين تنسيق النص ليكون واضحًا بعد التحميل
+        // ✅ ضبط تنسيق النص ليكون واضحًا ومتمركزًا في الحقل
         textElement.style.display = 'flex';
         textElement.style.alignItems = 'center';
-        textElement.style.justifyContent = 'flex-start';
+        textElement.style.justifyContent = 'center';
         textElement.style.fontWeight = 'bold';
         textElement.style.whiteSpace = 'nowrap';
         textElement.style.overflow = 'hidden';
 
+        // ✅ التحقق مما إذا كان الحقل هو "تاريخ التنفيذ" وضبط موقعه يدويًا
+        if (input.id === 'date') {
+            textElement.style.left = `${rect.left - containerRect.left + 5}px`; // تحريك قليلاً لليمين
+            textElement.style.top = `${rect.top - containerRect.top + 3}px`;  // ضبط التمركز
+            textElement.style.color = 'blue'; // تمييز التاريخ بلون أزرق كما في النموذج
+        }
+
+        // ✅ نقل النصوص من الحقول إلى العنصر الجديد
         textElement.textContent = input.value || input.placeholder;
-        textElement.className = 'temp-element';
 
         container.appendChild(textElement);
         tempElements.push(textElement);
 
+        // ✅ إخفاء الحقول الأصلية أثناء التصوير
         input.style.visibility = 'hidden';
     });
 
@@ -111,6 +124,7 @@ function downloadAsImage() {
         // 🟢 إعادة الأزرار بعد التحميل
         buttons.forEach(button => button.style.visibility = 'visible');
 
+        // 🟢 إعادة الحقول بعد التحميل
         inputs.forEach(input => (input.style.visibility = 'visible'));
         tempElements.forEach(el => el.remove());
     }).catch(error => {
@@ -118,7 +132,6 @@ function downloadAsImage() {
         buttons.forEach(button => button.style.visibility = 'visible');
     });
 }
-
 // 🟢 بيانات تسجيل الدخول
 const users = {
     "0504854223": "1234",
