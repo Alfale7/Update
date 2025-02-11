@@ -1,1 +1,292 @@
+/* ========== كود خاص بملف SALAH.HTML ========== */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #e6f7ff, #cceeff);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    border: 1px solid #99ccff;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #ffffff, #e6f7ff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 15px;
+    padding: 15px;
+}
+
+.header {
+    grid-column: span 2;
+    background: linear-gradient(to right, #103d5e, #46b39d);
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.header .text {
+    text-align: right;
+    line-height: 1.5;
+    font-size: 1em;
+}
+
+.header .logo {
+    width: 120px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+..fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    font-weight: normal;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    color: #103d5e;
+    font-size: 16px;
+}
+
+/* 🔹 ضبط حجم المدخلات ليكون مثل ملف Nawaf */
+.field input, .field textarea {
+    width: 100%;
+    padding: 10px; /* زيادة التباعد الداخلي */
+    border: 1px solid #46b39d;
+    border-radius: 5px;
+    font-size: 16px; /* تكبير النص */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 40px; /* ✅ توحيد ارتفاع الحقول مع Nawaf */
+}
+
+/* 🔹 ضبط ارتفاع الحقول النصية */
+.field textarea {
+    resize: none;
+    height: 80px; /* ✅ نفس ارتفاع المربعات النصية في Nawaf */
+}
+
+.field input:focus, .field textarea:focus {
+    border-color: #103d5e;
+    box-shadow: 0 0 5px rgba(16, 61, 94, 0.5);
+    outline: none;
+}
+
+.shahid-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shahid-section h3 {
+    text-align: center;
+    font-size: 1.2em;
+    color: #103d5e;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.shahid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.shahid {
+    border: 1px solid #46b39d;
+    border-radius: 5px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #103d5e, #46b39d);
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.shahid img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 5px;
+    object-fit: cover;
+    margin: auto;
+}
+
+.shahid input[type="file"] {
+    display: none;
+}
+
+/* 🔹 زر إضافة شاهد جديد */
+.add-shahid-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+.add-shahid-button:hover {
+    background: #0056b3;
+}
+
+.buttons {
+    grid-column: span 2;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.buttons button.download {
+    background-color: #28a745;
+    color: white;
+}
+
+.buttons button.download:hover {
+    background-color: #218838;
+}
+
+.footer {
+    grid-column: span 2;
+    font-size: 0.9em;
+    color: #103d5e;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.footer .programmer, .footer .manager {
+    font-size: 0.85em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.footer .programmer {
+    margin-right: 20px;
+    align-self: flex-end;
+}
+
+.footer .manager {
+    margin-left: 20px;
+    align-self: flex-end;
+}
+
+@media (max-width: 600px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        font-size: 0.9em;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header .logo {
+        align-self: flex-end;
+        margin-top: 10px;
+    }
+
+    .field input, .field textarea {
+        font-size: 0.75em;
+    }
+
+    .shahid {
+        height: 120px;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer .programmer, .footer .manager {
+        margin: 5px 0;
+    }
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: center; /* توسيط الأزرار */
+    gap: 10px; /* تباعد بين الأزرار */
+    margin-top: 20px;
+}
+
+.navigation-buttons .back-button {
+    background-color: #007BFF; /* اللون الأزرق */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.navigation-buttons .back-button:hover {
+    background-color: #0056b3;
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔴 زر تسجيل الخروج باللون الأحمر */
+.navigation-buttons .logout-button {
+    background-color: #dc3545; /* اللون الأحمر */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.navigation-buttons .logout-button:hover {
+    background-color: #c82333;
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.15);
+}
+}
+
 
