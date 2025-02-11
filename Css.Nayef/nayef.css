@@ -1,1 +1,298 @@
+/* 🔹 ملف nawaf - تنسيق الصفحة 
+العامة */
 
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #e6f7ff, #cceeff);
+}
+
+/* 🔹 ملف nawaf - الحاوية الأساسية */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    border: 1px solid #99ccff;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #ffffff, #e6f7ff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 15px;
+}
+
+/* 🔹 ملف nawaf - رأس الصفحة */
+.header {
+    grid-column: span 2;
+    background: linear-gradient(to right, #103d5e, #46b39d);
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.header .text {
+    text-align: right;
+    line-height: 1.5;
+    font-size: 1em;
+}
+
+.header .logo {
+    width: 120px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 🔹 ملف nawaf - حقول الإدخال */
+
+/* 🔹 ملف nawaf - حقول الإدخال */
+
+fields {
+    direction: rtl; /* يجعل ترتيب الحقول من اليمين إلى اليسار */
+    text-align: right; /* يضمن أن النصوص تظهر بمحاذاة اليمين */
+}
+
+.fields {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.field label {
+    margin-bottom: 5px;
+    color: #103d5e;
+    font-size: 16px;
+}
+
+.field input, .field textarea {
+    text-align: right !important; /* محاذاة النص داخل الحقول إلى اليمين */
+    direction: rtl; /* ضمان اتجاه النص من اليمين إلى اليسار */
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #46b39d;
+    box-sizing: border-box;
+}
+
+.field input:focus, .field textarea:focus {
+    border-color: #103d5e;
+    outline: none;
+}
+/* 🔹 قسم الشواهد */
+.shahid-section {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; /* توسيط العناصر */
+}
+
+.shahid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* ✅ ضبط توزيع الأعمدة */
+    gap: 15px;
+}
+
+/* 🔹 صندوق الشاهد */
+.shahid {
+    border: 1px solid #46b39d;
+    border-radius: 5px;
+    width: 200px; /* ✅ تثبيت العرض */
+    height: 200px; /* ✅ تثبيت الارتفاع */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #103d5e, #46b39d);
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden; /* ✅ منع التمدد غير المتناسق */
+    padding: 10px;
+}
+
+/* 🔹 تنسيق الصورة داخل الشاهد */
+.shahid img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover; /* ✅ ضبط الصورة بحيث تملأ الإطار بدون تمدد غير طبيعي */
+    display: block;
+}
+
+/* 🔹 زر الحذف *//* 🔹 زر الحذف - إزالة كلمة "حذف" والإبقاء على علامة X فقط */
+.remove-btn {
+    position: absolute;
+    top: -12px; /* ✅ رفع الزر قليلاً للأعلى */
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px; /* ✅ تكبير علامة X */
+    font-weight: bold;
+    z-index: 10; /* ✅ ضمان بقاء الزر فوق الصورة */
+}
+
+/* ✅ إزالة النص والإبقاء على X فقط */
+.remove-btn::after {
+    content: "✖"; /* ✅ فقط علامة X */
+}
+
+/* 🔹 زر إضافة شاهد جديد */
+.add-shahid-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+.add-shahid-button:hover {
+    background: #0056b3;
+}
+
+/* 🔹 ملف nawaf - الأزرار */
+/* 🔹 تنسيق عام لجميع الأزرار */
+
+button {
+    padding: 12px 15px;
+    font-size: 1rem; /* تصغير الخط قليلاً ليظهر بالكامل */
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+    white-space: nowrap; /* منع انكسار النص */
+    text-align: center;
+}
+
+/* 🔹 زر تحميل التقرير */
+.download {
+    background-color: #28a745;
+    color: white;
+    min-width: 140px; /* ضمان عرض مناسب */
+}
+
+.download:hover {
+    background-color: #218838;
+}
+
+/* 🔹 تنسيق الأزرار السفلية */
+.navigation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap; /* يضمن ترتيب الأزرار في الجوال */
+}
+
+/* 🔹 زر الرجوع إلى النماذج */
+.back-button {
+    background-color: #007BFF;
+    color: white;
+    min-width: 140px;
+}
+
+/* 🔹 زر تسجيل الخروج */
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    min-width: 140px;
+}
+
+/* 🔹 تحسين العرض على الجوال */
+@media (max-width: 600px) {
+    .navigation-buttons {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .navigation-buttons button {
+        font-size: 0.85rem; /* تصغير الخط ليظهر بشكل متناسق */
+        padding: 10px;
+    }
+}
+/* 🔹 ملف nawaf - الفوتر */
+.footer {
+    grid-column: span 2;
+    font-size: 0.9em;
+    color: #103d5e;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.footer .programmer, .footer .manager {
+    font-size: 0.85em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.footer .programmer {
+    margin-right: 20px;
+    align-self: flex-end;
+}
+
+.footer .manager {
+    margin-left: 20px;
+    align-self: flex-end;
+}
+
+/* 🔹 ملف nawaf - تحسين العرض للجوال */
+@media (max-width: 600px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        font-size: 0.9em;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header .logo {
+        align-self: flex-end;
+        margin-top: 10px;
+    }
+
+    .field input, .field textarea {
+        font-size: 0.75em;
+    }
+
+    .shahid {
+        height: 120px;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer .programmer, .footer .manager {
+        margin: 5px 0;
+    }
+}
