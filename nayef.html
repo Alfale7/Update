@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير</title>
+
+    <!-- ربط ملف CSS -->
+    <link rel="stylesheet" href="Css.Nayef/nayef.css">
+
+    <!-- مكتبة html2canvas لتحميل التقرير كصورة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="text">
+                وزارة التربية والتعليم<br>
+                الإدارة العامة للتعليم<br>
+                مكتب التعليم بمنطقة 
+                <input 
+                    type="text" 
+                    id="regionInput" 
+                    placeholder="أدخل منطقتك هنا" 
+                    oninput="updateRegion()">
+            </div>
+            <img src="logo.png" alt="شعار وزارة التعليم" class="logo">
+        </div>
+
+        <!-- 🟢 الحقول -->
+       <div class="fields">
+            <div class="field">
+                <label for="name">المنفذ/ة:</label>
+                <input type="text" id="name" placeholder="اسم المنفذ">
+            </div>
+
+            <div class="field">
+                <label for="location">مكان التنفيذ:</label>
+                <input type="text" id="location" placeholder="مكان التنفيذ">
+            </div>
+
+             <div class="field">
+                <label for="program_description">وصف البرنامج:</label>
+                <input type="text" id="program_description" placeholder="أكتب الوصف">
+            </div>
+
+            <div class="field">
+                <label for="beneficiaries">المستفيدون:</label>
+                <input type="text" id="beneficiaries" placeholder="عدد المستفيدين">
+            </div>
+
+            <div class="field">
+                <label for="target_group">الفئة المستهدفة:</label>
+                <input type="text" id="target_group" placeholder="الفئة المستهدفة">
+            </div>
+
+            <div class="field">
+                <label for="day">اليوم:</label>
+                <input type="text" id="day" placeholder="ادخل اليوم">
+            </div>
+
+            <div class="field">
+                <label for="date">تاريخ التنفيذ:</label>
+                <input type="date" id="date">
+            </div>
+
+            <div class="field">
+                <label for="manager">مدير/ة المدرسة:</label>
+                <input type="text" id="manager" placeholder="اسم مدير المدرسة">
+            </div>
+
+            <div class="field">
+                <label for="objectives">الأهداف:</label>
+                <textarea id="objectives" rows="4" placeholder="اكتب الأهداف هنا..."></textarea>
+            </div>
+        </div>
+
+<div class="shahid-section">
+    <h3>الشواهد ⤵️</h3>
+    <div id="shahid-grid" class="shahid-grid"></div>
+    <button class="add-shahid-button">➕ إضافة شاهد جديد</button>
+</div>
+   
+        <div class="buttons">
+            <button class="download" onclick="downloadAsImage()">تحميل التقرير كصورة</button>
+        </div>
+
+        <div class="navigation-buttons">
+            <!-- زر الرجوع إلى النماذج -->
+            <button onclick="location.href='choose.html'" class="back-button">
+                الرجوع إلى النماذج
+            </button>
+
+            <!-- زر تسجيل الخروج -->
+            <button onclick="location.href='index.html'" class="logout-button">
+                تسجيل الخروج
+            </button>
+        </div>
+
+<script src="javaNK/NKscript.js"></script>
+
+</body>
+</html>
