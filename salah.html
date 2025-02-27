@@ -18,17 +18,20 @@
                 وزارة التربية والتعليم<br>
                 الإدارة العامة للتعليم<br>
                 مكتب التعليم بمنطقة 
-                <input 
-                    type="text" 
-                    id="regionInput" 
-                    placeholder="أدخل منطقتك هنا" 
-                    oninput="updateRegion()">
+                <!-- عنصر قابل للتحرير بدلاً من حقل الإدخال -->
+                <span
+                    id="regionSpan"
+                    contenteditable="true"
+                    style="color: #fff; background-color: transparent; outline: none; border: none; margin-right: 5px;"
+                >
+                    اكتب منطقتك
+                </span>
             </div>
             <img src="logo.png" alt="شعار وزارة التعليم" class="logo">
         </div>
 
         <!-- 🟢 الحقول -->
-       <div class="fields">
+        <div class="fields">
             <div class="field">
                 <label for="name">المنفذ/ة:</label>
                 <input type="text" id="name" placeholder="اسم المنفذ">
@@ -39,7 +42,7 @@
                 <input type="text" id="location" placeholder="مكان التنفيذ">
             </div>
 
-             <div class="field">
+            <div class="field">
                 <label for="program_description">وصف البرنامج:</label>
                 <input type="text" id="program_description" placeholder="أكتب الوصف">
             </div>
@@ -100,7 +103,7 @@
 
         <!-- 🟢 الأزرار -->
         <div class="buttons">
-            <button class="download" onclick="downloadAsImage()">تحميل التقرير كصورة</button>
+            <button class="download" onclick="downloadAsImage()">اضغط هنا لتحميل التقرير</button>
         </div>
 
         <div class="navigation-buttons">
@@ -114,7 +117,9 @@
                 تسجيل الخروج
             </button>
         </div>
+    </div> <!-- إغلاق div.container -->
 
+    <!-- سكربتات أخرى إن وجدت -->
     <script src="java/script.js"></script>
 </body>
 </html>
